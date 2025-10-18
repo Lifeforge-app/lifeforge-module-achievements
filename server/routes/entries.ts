@@ -32,6 +32,7 @@ const list = forgeController
             }
           : undefined
       ])
+      .sort(['-created'])
       .execute()
   )
 

@@ -49,5 +49,6 @@
   },
   "items": {
     "achievement": "Pencapaian"
-  }
+  },
+  "accomplishedOn": "Dicapai {{date}}"
 }

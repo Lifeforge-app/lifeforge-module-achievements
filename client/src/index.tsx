@@ -7,6 +7,7 @@ import {
   FAB,
   LayoutWithSidebar,
   ModuleHeader,
+  Scrollbar,
   WithQuery
 } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
@@ -81,8 +82,8 @@ function Achievements() {
           <WithQuery query={entriesQuery}>
             {entries =>
               entries.length ? (
-                <>
-                  <ul className="mt-6 space-y-3">
+                <Scrollbar className="mt-6">
+                  <ul className="mb-8 space-y-3">
                     {entries.map(entry => (
                       <EntryItem key={entry.id} entry={entry} />
                     ))}
@@ -91,7 +92,7 @@ function Achievements() {
                     visibilityBreakpoint="md"
                     onClick={handleCreateAchievement}
                   />
-                </>
+                </Scrollbar>
               ) : (
                 <EmptyStateScreen
                   icon="tabler:award-off"

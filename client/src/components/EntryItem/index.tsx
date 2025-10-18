@@ -14,6 +14,7 @@ function EntryItem({ entry }: { entry: Achievement }) {
           category={entry.category}
           thoughts={entry.thoughts}
           title={entry.title}
+          created={entry.created}
         />
       </div>
       <ActionMenu entry={entry} />

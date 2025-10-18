@@ -49,5 +49,6 @@
   },
   "items": {
     "achievement": "成就"
-  }
+  },
+  "accomplishedOn": "{{date}}達成"
 }

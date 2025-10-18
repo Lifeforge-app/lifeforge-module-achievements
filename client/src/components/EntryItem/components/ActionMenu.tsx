@@ -49,7 +49,7 @@ function ActionMenu({ entry }: { entry: Achievement }) {
   }, [entry])
 
   return (
-    <ContextMenu>
+    <ContextMenu classNames={{ wrapper: 'absolute right-3 top-3' }}>
       <ContextMenuItem
         icon="tabler:pencil"
         label="Edit"

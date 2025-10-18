@@ -21,11 +21,11 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
     <>
       <header className="flex-between flex w-full">
         <div className="flex min-w-0 items-end">
-          <h1 className="truncate text-3xl font-semibold">
+          <h1 className="truncate text-2xl font-semibold xl:text-3xl">
             {t(`headers.${difficulty || 'all'}`)}{' '}
             {category ? `(${t('headers.filtered')})` : ''}
           </h1>
-          <span className="text-bg-500 ml-2 mr-8 text-base">
+          <span className="text-bg-500 mr-8 ml-2 text-base">
             ({totalItemsCount})
           </span>
         </div>

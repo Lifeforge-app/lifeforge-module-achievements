@@ -49,5 +49,6 @@
   },
   "items": {
     "achievement": "Achievement"
-  }
+  },
+  "accomplishedOn": "Accomplished {{date}}"
 }

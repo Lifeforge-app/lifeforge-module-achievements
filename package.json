@@ -9,8 +9,10 @@
     "@iconify/react": "^6.0.2",
     "@tanstack/react-query": "^5.90.2",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.18",
     "lifeforge-ui": "workspace:*",
     "nuqs": "^2.7.1",
+    "react": "^19.2.0",
     "react-i18next": "^16.0.0",
     "react-toastify": "^11.0.5",
     "shared": "workspace:*",
@@ -19,7 +21,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.1"
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0"
   }
 }
