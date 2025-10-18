@@ -222,7 +222,7 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_BoiV',
+          id: '_clone_DN12',
           max: 0,
           min: 0,
           name: 'name',
@@ -236,7 +236,7 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_uLZJ',
+          id: '_clone_VPwD',
           max: 0,
           min: 0,
           name: 'icon',
@@ -250,7 +250,7 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_7EvD',
+          id: '_clone_jiDP',
           max: 0,
           min: 0,
           name: 'color',
@@ -335,7 +335,7 @@ const achievementsSchemas = {
       indexes: [],
       system: false,
       viewQuery:
-        "WITH all_difficulties AS (\n      SELECT 'easy' as difficulty\n      UNION ALL SELECT 'medium'\n      UNION ALL SELECT 'hard' \n      UNION ALL SELECT 'extreme'\n    )\n    SELECT \n      (ROW_NUMBER() OVER()) as id,\n      CAST(ad.difficulty AS VARCHAR) as difficulty,\n      CAST(COALESCE(COUNT(a.id), 0) AS INT) as count\n    FROM all_difficulties ad\n    LEFT JOIN achievements__entries a ON a.difficulty = ad.difficulty\n    GROUP BY ad.difficulty"
+        "WITH all_difficulties AS (\n      SELECT 'easy' as difficulty\n      UNION ALL SELECT 'medium'\n      UNION ALL SELECT 'hard' \n      UNION ALL SELECT 'impossible'\n    )\n    SELECT \n      (ROW_NUMBER() OVER()) as id,\n      CAST(ad.difficulty AS VARCHAR) as difficulty,\n      CAST(COALESCE(COUNT(a.id), 0) AS INT) as count\n    FROM all_difficulties ad\n    LEFT JOIN achievements__entries a ON a.difficulty = ad.difficulty\n    GROUP BY ad.difficulty"
     }
   }
 }
