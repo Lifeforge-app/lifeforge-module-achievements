@@ -24,11 +24,13 @@ const list = forgeController
           operator: '=',
           value: difficulty
         },
-        !!category && {
-          field: 'category',
-          operator: '=',
-          value: category
-        }
+        category
+          ? {
+              field: 'category',
+              operator: '=',
+              value: category
+            }
+          : undefined
       ])
       .execute()
   )
