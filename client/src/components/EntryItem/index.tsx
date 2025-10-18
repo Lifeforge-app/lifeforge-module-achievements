@@ -10,7 +10,11 @@ function EntryItem({ entry }: { entry: Achievement }) {
     <ItemWrapper as="li" className="flex items-start justify-between gap-3">
       <div className="flex flex-col gap-3 sm:flex-row">
         <AwardIcon difficulty={entry.difficulty} />
-        <AchievementMeta thoughts={entry.thoughts} title={entry.title} />
+        <AchievementMeta
+          category={entry.category}
+          thoughts={entry.thoughts}
+          title={entry.title}
+        />
       </div>
       <ActionMenu entry={entry} />
     </ItemWrapper>

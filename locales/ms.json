@@ -7,10 +7,29 @@
     "hard": "Sukar",
     "impossible": "Mustahil"
   },
+  "headers": {
+    "easy": "Pencapaian Mudah",
+    "medium": "Pencapaian Sederhana",
+    "hard": "Pencapaian Sukar",
+    "impossible": "Pencapaian Mustahil",
+    "filtered": "Ditapis",
+    "all": "Semua Pencapaian"
+  },
+  "sidebar": {
+    "categories": "Kategori",
+    "difficulties": "Kesukaran",
+    "starredAchievements": "Pencapaian Berbintang",
+    "allCategories": "Semua Kategori",
+    "allDifficulties": "Semua Kesukaran"
+  },
   "empty": {
     "achievement": {
       "title": "Tiada Pencapaian",
-      "description": "Anda belum menambah sebarang pencapaian lagi. Klik butang di bawah untuk menambah satu."
+      "description": "Anda belum menambah sebarang pencapaian lagi. Klik butang di atas untuk menambah satu."
+    },
+    "categories": {
+      "title": "Tiada Kategori",
+      "description": "Anda belum menambah sebarang kategori lagi. Klik butang di atas untuk menambah satu."
     }
   },
   "modals": {
@@ -22,7 +41,11 @@
   "inputs": {
     "achievementTitle": "Tajuk Pencapaian",
     "achievementDifficulty": "Kesukaran Pencapaian",
-    "achievementThoughts": "Pemikiran Pencapaian"
+    "achievementThoughts": "Pemikiran Pencapaian",
+    "achievementCategory": "Kategori Pencapaian",
+    "categoryName": "Nama Kategori",
+    "categoryColor": "Warna Kategori",
+    "categoryIcon": "Ikon Kategori"
   },
   "items": {
     "achievement": "Pencapaian"

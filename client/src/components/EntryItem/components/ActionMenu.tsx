@@ -9,7 +9,7 @@ import {
 import { useCallback } from 'react'
 
 import type { Achievement } from '../../..'
-import ModifyAchievementModal from '../../ModifyAchievementModal'
+import ModifyAchievementModal from '../../modals/ModifyAchievementModal'
 
 function ActionMenu({ entry }: { entry: Achievement }) {
   const open = useModalStore(state => state.open)
@@ -44,8 +44,7 @@ function ActionMenu({ entry }: { entry: Achievement }) {
   const handleUpdateEntry = useCallback(() => {
     open(ModifyAchievementModal, {
       modifyType: 'update',
-      initialData: entry,
-      currentDifficulty: entry.difficulty
+      initialData: entry
     })
   }, [entry])
 

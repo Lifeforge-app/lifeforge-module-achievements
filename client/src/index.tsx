@@ -1,26 +1,34 @@
 import forgeAPI from '@/utils/forgeAPI'
+import { useQuery } from '@tanstack/react-query'
 import {
   Button,
+  ContentWrapperWithSidebar,
   EmptyStateScreen,
   FAB,
+  LayoutWithSidebar,
   ModuleHeader,
-  Tabs,
-  WithQueryData
+  WithQuery
 } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
-import { parseAsStringEnum, useQueryState } from 'nuqs'
 import { useTranslation } from 'react-i18next'
 import type { InferOutput } from 'shared'
 import colors from 'tailwindcss/colors'
 
 import EntryItem from './components/EntryItem'
-import ModifyAchievementModal from './components/ModifyAchievementModal'
+import InnerHeader from './components/InnerHeader'
+import Sidebar from './components/Sidebar'
+import ModifyAchievementModal from './components/modals/ModifyAchievementModal'
+import useFilter from './hooks/useFilter'
 
 export type Achievement = InferOutput<
   typeof forgeAPI.achievements.entries.list
 >[number]
 
-const DIFFICULTIES = {
+export type AchievementCategory = InferOutput<
+  typeof forgeAPI.achievements.categories.list
+>[number]
+
+export const DIFFICULTIES = {
   easy: colors.green[500],
   medium: colors.yellow[500],
   hard: colors.red[500],
@@ -32,15 +40,20 @@ function Achievements() {
 
   const open = useModalStore(state => state.open)
 
-  const [difficulty, setDifficulty] = useQueryState(
-    'difficulty',
-    parseAsStringEnum(Object.keys(DIFFICULTIES)).withDefault('easy')
+  const { difficulty, category } = useFilter()
+
+  const entriesQuery = useQuery(
+    forgeAPI.achievements.entries.list
+      .input({
+        difficulty: (difficulty as Achievement['difficulty']) || undefined,
+        category: category || undefined
+      })
+      .queryOptions()
   )
 
   const handleCreateAchievement = () => {
     open(ModifyAchievementModal, {
-      modifyType: 'create',
-      currentDifficulty: difficulty
+      modifyType: 'create'
     })
   }
 
@@ -61,48 +74,35 @@ function Achievements() {
           </Button>
         }
       />
-      <Tabs
-        active={difficulty}
-        className="mb-6"
-        enabled={Object.keys(DIFFICULTIES).map(
-          difficulty => difficulty as keyof typeof DIFFICULTIES
-        )}
-        items={Object.keys(DIFFICULTIES).map(difficulty => ({
-          id: difficulty,
-          name: t(`difficulties.${difficulty}`),
-          color: DIFFICULTIES[difficulty as keyof typeof DIFFICULTIES]
-        }))}
-        onNavClick={id => {
-          setDifficulty(id as Achievement['difficulty'])
-        }}
-      />
-      <WithQueryData
-        controller={forgeAPI.achievements.entries.list.input({
-          difficulty: difficulty as Achievement['difficulty']
-        })}
-      >
-        {entries =>
-          entries.length ? (
-            <>
-              <ul className="space-y-3">
-                {entries.map(entry => (
-                  <EntryItem key={entry.id} entry={entry} />
-                ))}
-              </ul>
-              <FAB
-                visibilityBreakpoint="md"
-                onClick={handleCreateAchievement}
-              />
-            </>
-          ) : (
-            <EmptyStateScreen
-              icon="tabler:award-off"
-              name="achievement"
-              namespace="apps.achievements"
-            />
-          )
-        }
-      </WithQueryData>
+      <LayoutWithSidebar>
+        <Sidebar />
+        <ContentWrapperWithSidebar>
+          <InnerHeader totalItemsCount={entriesQuery.data?.length || 0} />
+          <WithQuery query={entriesQuery}>
+            {entries =>
+              entries.length ? (
+                <>
+                  <ul className="mt-6 space-y-3">
+                    {entries.map(entry => (
+                      <EntryItem key={entry.id} entry={entry} />
+                    ))}
+                  </ul>
+                  <FAB
+                    visibilityBreakpoint="md"
+                    onClick={handleCreateAchievement}
+                  />
+                </>
+              ) : (
+                <EmptyStateScreen
+                  icon="tabler:award-off"
+                  name="achievement"
+                  namespace="apps.achievements"
+                />
+              )
+            }
+          </WithQuery>
+        </ContentWrapperWithSidebar>
+      </LayoutWithSidebar>
     </>
   )
 }

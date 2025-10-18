@@ -6,31 +6,60 @@ const list = forgeController
   .query()
   .description('Get all achievements entries by difficulty')
   .input({
-    query: SCHEMAS.achievements.entries.schema.pick({
-      difficulty: true
+    query: z.object({
+      difficulty:
+        SCHEMAS.achievements.entries.schema.shape.difficulty.optional(),
+      category: z.string().optional()
     })
   })
-  .callback(async ({ pb, query: { difficulty } }) =>
+  .existenceCheck('query', {
+    category: '[achievements__categories]'
+  })
+  .callback(async ({ pb, query: { difficulty, category } }) =>
     pb.getFullList
       .collection('achievements__entries')
       .filter([
-        {
+        difficulty && {
           field: 'difficulty',
           operator: '=',
           value: difficulty
+        },
+        !!category && {
+          field: 'category',
+          operator: '=',
+          value: category
         }
       ])
       .execute()
+  )
+
+const difficultiesCount = forgeController
+  .query()
+  .description('Get the entries count grouped by difficulties')
+  .input({})
+  .callback(
+    async ({ pb }) =>
+      Object.fromEntries(
+        (
+          await pb.getFullList
+            .collection('achievements__difficulties_aggregated')
+            .execute()
+        ).map(item => [item.difficulty, item.count])
+      ) as Record<string, number>
   )
 
 const create = forgeController
   .mutation()
   .description('Create a new achievements entry')
   .input({
-    body: SCHEMAS.achievements.entries.schema.omit({
-      created: true,
-      updated: true
-    })
+    body: SCHEMAS.achievements.entries.schema
+      .omit({
+        created: true,
+        updated: true
+      })
+      .extend({
+        category: z.string().optional()
+      })
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
@@ -44,10 +73,14 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.achievements.entries.schema.omit({
-      created: true,
-      updated: true
-    })
+    body: SCHEMAS.achievements.entries.schema
+      .omit({
+        created: true,
+        updated: true
+      })
+      .extend({
+        category: z.string().optional()
+      })
   })
   .existenceCheck('query', {
     id: 'achievements__entries'
@@ -74,6 +107,7 @@ const remove = forgeController
 
 export default forgeRouter({
   list,
+  difficultiesCount,
   create,
   update,
   remove

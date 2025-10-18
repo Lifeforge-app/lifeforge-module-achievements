@@ -1,11 +1,12 @@
+import useFilter from '@/hooks/useFilter'
 import forgeAPI from '@/utils/forgeAPI'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
 import type { InferInput } from 'shared'
 import COLOR from 'tailwindcss/colors'
 
-import type { Achievement } from '..'
+import type { Achievement } from '../..'
 
 const difficulties = [
   ['easy', 'green'],
@@ -15,17 +16,24 @@ const difficulties = [
 ]
 
 function ModifyAchievementModal({
-  data: { modifyType, initialData, currentDifficulty },
+  data: { modifyType, initialData },
   onClose
 }: {
   data: {
     modifyType: 'create' | 'update'
     initialData?: Achievement
-    currentDifficulty: string
   }
   onClose: () => void
 }) {
   const { t } = useTranslation('apps.achievements')
+
+  const { difficulty: currentDifficulty } = useFilter()
+
+  const categoriesQuery = useQuery(
+    forgeAPI.achievements.categories.list.queryOptions()
+  )
+
+  const categories = categoriesQuery.data || []
 
   const queryClient = useQueryClient()
 
@@ -51,6 +59,7 @@ function ModifyAchievementModal({
   >({
     icon: modifyType === 'create' ? 'tabler:plus' : 'tabler:pencil',
     title: `achievement.${modifyType}`,
+    loading: categoriesQuery.isLoading,
     onClose,
     namespace: 'apps.achievements',
     submitButton: modifyType
@@ -58,7 +67,8 @@ function ModifyAchievementModal({
     .typesMap({
       difficulty: 'listbox',
       title: 'text',
-      thoughts: 'textarea'
+      thoughts: 'textarea',
+      category: 'listbox'
     })
     .setupFields({
       title: {
@@ -77,20 +87,31 @@ function ModifyAchievementModal({
         required: true,
         multiple: false,
         label: 'Achievement difficulty',
-        icon: 'tabler:list',
+        icon: 'tabler:circle-dot',
         options: difficulties.map(([name, color]) => ({
           text: t(`difficulties.${name}`),
           value: name as Achievement['difficulty'],
           color: COLOR[color as keyof typeof COLOR][500]
         }))
+      },
+      category: {
+        required: false,
+        multiple: false,
+        label: 'Achievement category',
+        icon: 'tabler:category',
+        options: categories.map(category => ({
+          text: category.name,
+          color: category.color,
+          icon: category.icon,
+          value: category.id
+        }))
       }
     })
     .initialData({
-      title: initialData?.title || '',
-      thoughts: initialData?.thoughts || '',
-      difficulty: (initialData?.difficulty ||
-        currentDifficulty ||
-        'easy') as Achievement['difficulty']
+      ...initialData,
+      difficulty:
+        initialData?.difficulty ||
+        (currentDifficulty as Achievement['difficulty'])
     })
     .onSubmit(async formData => {
       await mutation.mutateAsync(formData)
