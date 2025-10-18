@@ -9,13 +9,14 @@ const list = forgeController
     query: z.object({
       difficulty:
         SCHEMAS.achievements.entries.schema.shape.difficulty.optional(),
-      category: z.string().optional()
+      category: z.string().optional(),
+      query: z.string().optional()
     })
   })
   .existenceCheck('query', {
     category: '[achievements__categories]'
   })
-  .callback(async ({ pb, query: { difficulty, category } }) =>
+  .callback(async ({ pb, query: { difficulty, category, query } }) =>
     pb.getFullList
       .collection('achievements__entries')
       .filter([
@@ -29,6 +30,23 @@ const list = forgeController
               field: 'category',
               operator: '=',
               value: category
+            }
+          : undefined,
+        query
+          ? {
+              combination: '||',
+              filters: [
+                {
+                  field: 'title',
+                  operator: '~',
+                  value: query
+                },
+                {
+                  field: 'thoughts',
+                  operator: '~',
+                  value: query
+                }
+              ]
             }
           : undefined
       ])

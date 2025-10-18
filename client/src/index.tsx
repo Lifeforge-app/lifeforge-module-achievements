@@ -41,13 +41,14 @@ function Achievements() {
 
   const open = useModalStore(state => state.open)
 
-  const { difficulty, category } = useFilter()
+  const { difficulty, category, debouncedSearchQuery } = useFilter()
 
   const entriesQuery = useQuery(
     forgeAPI.achievements.entries.list
       .input({
         difficulty: (difficulty as Achievement['difficulty']) || undefined,
-        category: category || undefined
+        category: category || undefined,
+        query: debouncedSearchQuery || undefined
       })
       .queryOptions()
   )

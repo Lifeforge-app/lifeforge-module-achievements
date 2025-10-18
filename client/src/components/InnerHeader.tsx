@@ -1,7 +1,12 @@
 import { DIFFICULTIES } from '@'
 import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
-import { Button, HeaderFilter, useModuleSidebarState } from 'lifeforge-ui'
+import {
+  Button,
+  HeaderFilter,
+  SearchInput,
+  useModuleSidebarState
+} from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
 
 import useFilter from '../hooks/useFilter'
@@ -15,7 +20,8 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
     forgeAPI.achievements.categories.list.queryOptions()
   )
 
-  const { category, difficulty, updateFilter } = useFilter()
+  const { category, difficulty, updateFilter, searchQuery, setSearchQuery } =
+    useFilter()
 
   return (
     <>
@@ -25,7 +31,7 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
             {t(`headers.${difficulty || 'all'}`)}{' '}
             {category ? `(${t('headers.filtered')})` : ''}
           </h1>
-          <span className="text-bg-500 mr-8 ml-2 text-base">
+          <span className="text-bg-500 ml-2 mr-8 text-base">
             ({totalItemsCount})
           </span>
         </div>
@@ -66,6 +72,13 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
           category,
           difficulty
         }}
+      />
+      <SearchInput
+        className="mt-6"
+        namespace="apps.achievements"
+        searchTarget="achievement"
+        setValue={setSearchQuery}
+        value={searchQuery}
       />
     </>
   )
