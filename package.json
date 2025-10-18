@@ -13,7 +13,7 @@
     "lifeforge-ui": "workspace:*",
     "nuqs": "^2.7.1",
     "react": "^19.2.0",
-    "react-i18next": "^15.5.1",
+    "react-i18next": "^16.0.0",
     "react-toastify": "^11.0.5",
     "shared": "workspace:*",
     "tailwindcss": "^4.1.14",
