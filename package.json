@@ -1,6 +1,6 @@
 {
   "name": "achievements",
-  "version": "dev. 25w41",
+  "version": "dev. 25w43",
   "description": "Celebrate your victories big and small.",
   "scripts": {
     "types": "cd client && bun tsc"
