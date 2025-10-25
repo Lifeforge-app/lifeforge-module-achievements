@@ -7,5 +7,5 @@ export default {
   routes: {
     achievements: lazy(() => import('@'))
   },
-  category: '02.Lifestyle'
+  category: 'Lifestyle'
 } satisfies ModuleConfig
