@@ -222,7 +222,7 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_NB3w',
+          id: '_clone_SbCI',
           max: 0,
           min: 0,
           name: 'name',
@@ -236,7 +236,7 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_4WPv',
+          id: '_clone_pWVL',
           max: 0,
           min: 0,
           name: 'icon',
@@ -250,7 +250,7 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_pzqJ',
+          id: '_clone_Ct5h',
           max: 0,
           min: 0,
           name: 'color',
