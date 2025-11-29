@@ -97,8 +97,10 @@ function Achievements() {
               ) : (
                 <EmptyStateScreen
                   icon="tabler:award-off"
-                  name="achievement"
-                  namespace="apps.achievements"
+                  message={{
+                    id: 'achievements',
+                    namespace: 'apps.achievements'
+                  }}
                 />
               )
             }

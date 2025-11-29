@@ -25,9 +25,11 @@ function CategoriesSection() {
   return (
     <>
       <SidebarTitle
-        actionButtonIcon="tabler:plus"
-        actionButtonOnClick={() => {
-          open(ModifyCategoriesModal, { modifyType: 'create' })
+        actionButton={{
+          icon: 'tabler:plus',
+          onClick: () => {
+            open(ModifyCategoriesModal, { modifyType: 'create' })
+          }
         }}
         label={t('sidebar.categories')}
       />
@@ -38,8 +40,10 @@ function CategoriesSection() {
               smaller
               className="h-min"
               icon="tabler:apps-off"
-              name="categories"
-              namespace="apps.achievements"
+              message={{
+                id: 'categories',
+                namespace: 'apps.achievements'
+              }}
             />
           ) : (
             <>

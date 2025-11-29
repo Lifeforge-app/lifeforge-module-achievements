@@ -3,8 +3,8 @@ import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import {
   Button,
-  HeaderFilter,
   SearchInput,
+  TagsFilter,
   useModuleSidebarState
 } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
@@ -31,7 +31,7 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
             {t(`headers.${difficulty || 'all'}`)}{' '}
             {category ? `(${t('headers.filtered')})` : ''}
           </h1>
-          <span className="text-bg-500 ml-2 mr-8 text-base">
+          <span className="text-bg-500 mr-8 ml-2 text-base">
             ({totalItemsCount})
           </span>
         </div>
@@ -44,8 +44,8 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
           }}
         />
       </header>
-      <HeaderFilter
-        items={{
+      <TagsFilter
+        availableFilters={{
           category: {
             data: categoriesQuery.data || [],
             isColored: true
@@ -60,7 +60,11 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
             isColored: true
           }
         }}
-        setValues={{
+        values={{
+          category,
+          difficulty
+        }}
+        onChange={{
           category: value => {
             updateFilter('category', value)
           },
@@ -68,17 +72,13 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
             updateFilter('difficulty', value)
           }
         }}
-        values={{
-          category,
-          difficulty
-        }}
       />
       <SearchInput
         className="mt-6"
         namespace="apps.achievements"
         searchTarget="achievement"
-        setValue={setSearchQuery}
         value={searchQuery}
+        onChange={setSearchQuery}
       />
     </>
   )
