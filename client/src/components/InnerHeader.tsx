@@ -47,13 +47,19 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
       <TagsFilter
         availableFilters={{
           category: {
-            data: categoriesQuery.data || [],
+            data:
+              categoriesQuery.data?.map(category => ({
+                id: category.id,
+                icon: category.icon,
+                color: category.color,
+                label: category.name
+              })) || [],
             isColored: true
           },
           difficulty: {
             data: Object.entries(DIFFICULTIES).map(([key, color]) => ({
               id: key,
-              name: t(`difficulties.${key}`),
+              label: t(`difficulties.${key}`),
               icon: 'tabler:circle-dot',
               color
             })),
