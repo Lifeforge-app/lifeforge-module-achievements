@@ -20,16 +20,15 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
     forgeAPI.achievements.categories.list.queryOptions()
   )
 
-  const { category, difficulty, updateFilter, searchQuery, setSearchQuery } =
-    useFilter()
+  const { filter, updateFilter, searchQuery, setSearchQuery } = useFilter()
 
   return (
     <>
       <header className="flex-between flex w-full">
         <div className="flex min-w-0 items-end">
           <h1 className="truncate text-2xl font-semibold xl:text-3xl">
-            {t(`headers.${difficulty || 'all'}`)}{' '}
-            {category ? `(${t('headers.filtered')})` : ''}
+            {t(`headers.${filter.difficulty || 'all'}`)}{' '}
+            {filter.category ? `(${t('headers.filtered')})` : ''}
           </h1>
           <span className="text-bg-500 mr-8 ml-2 text-base">
             ({totalItemsCount})
@@ -67,8 +66,8 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
           }
         }}
         values={{
-          category,
-          difficulty
+          category: filter.category,
+          difficulty: filter.difficulty
         }}
         onChange={{
           category: value => {

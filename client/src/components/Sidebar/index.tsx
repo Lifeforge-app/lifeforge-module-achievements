@@ -8,16 +8,12 @@ import DifficultiesSection from './components/DifficultiesSection'
 function Sidebar() {
   const { t } = useTranslation('apps.achievements')
 
-  const {
-    updateFilter,
-    category: selectedCategory,
-    difficulty: selectedDifficulty
-  } = useFilter()
+  const { updateFilter, filter } = useFilter()
 
   return (
     <SidebarWrapper>
       <SidebarItem
-        active={!selectedCategory && !selectedDifficulty}
+        active={!filter.category && !filter.difficulty}
         icon="tabler:award"
         label={t('headers.all')}
         onClick={() => {

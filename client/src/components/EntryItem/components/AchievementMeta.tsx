@@ -21,7 +21,9 @@ function AchievementMeta({
   created: string
 }) {
   const { t } = useTranslation('apps.achievements')
+
   const { language } = usePersonalization()
+
   const categoriesQuery = useQuery(
     forgeAPI.achievements.categories.list.queryOptions()
   )

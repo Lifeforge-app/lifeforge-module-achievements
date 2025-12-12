@@ -27,7 +27,7 @@ function ModifyAchievementModal({
 }) {
   const { t } = useTranslation('apps.achievements')
 
-  const { difficulty: currentDifficulty } = useFilter()
+  const { filter } = useFilter()
 
   const categoriesQuery = useQuery(
     forgeAPI.achievements.categories.list.queryOptions()
@@ -111,7 +111,7 @@ function ModifyAchievementModal({
       ...initialData,
       difficulty:
         initialData?.difficulty ||
-        (currentDifficulty as Achievement['difficulty'])
+        (filter.difficulty as Achievement['difficulty'])
     })
     .onSubmit(async formData => {
       await mutation.mutateAsync(formData)

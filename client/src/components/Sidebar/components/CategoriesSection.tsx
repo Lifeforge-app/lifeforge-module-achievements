@@ -18,7 +18,7 @@ function CategoriesSection() {
 
   const { bgTempPalette } = usePersonalization()
 
-  const { updateFilter, category: selectedCategory } = useFilter()
+  const { updateFilter, filter } = useFilter()
 
   const open = useModalStore(state => state.open)
 
@@ -48,7 +48,7 @@ function CategoriesSection() {
           ) : (
             <>
               <SidebarItem
-                active={!selectedCategory}
+                active={!filter.category}
                 icon="tabler:category"
                 label={t('sidebar.allCategories')}
                 sideStripColor={bgTempPalette[500]}

@@ -11,7 +11,7 @@ function DifficultiesSection() {
 
   const { bgTempPalette } = usePersonalization()
 
-  const { updateFilter, difficulty: selectedDifficulty } = useFilter()
+  const { updateFilter, filter } = useFilter()
 
   const difficultiesCountQuery = useQuery(
     forgeAPI.achievements.entries.difficultiesCount.queryOptions()
@@ -21,7 +21,7 @@ function DifficultiesSection() {
     <>
       <SidebarTitle label={t('sidebar.difficulties')} />
       <SidebarItem
-        active={!selectedDifficulty}
+        active={!filter.difficulty}
         icon="tabler:circle-dot-filled"
         label={t('sidebar.allDifficulties')}
         sideStripColor={bgTempPalette[500]}
@@ -35,7 +35,7 @@ function DifficultiesSection() {
             {Object.entries(DIFFICULTIES).map(([difficulty, color]) => (
               <SidebarItem
                 key={difficulty}
-                active={selectedDifficulty === difficulty}
+                active={filter.difficulty === difficulty}
                 icon="tabler:circle-dot"
                 label={t(`difficulties.${difficulty}`)}
                 number={difficultiesCount[difficulty] || 0}

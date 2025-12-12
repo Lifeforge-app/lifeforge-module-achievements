@@ -14,7 +14,7 @@ import { toast } from 'react-toastify'
 function CategoryItem({ category }: { category: AchievementCategory }) {
   const open = useModalStore(state => state.open)
 
-  const { updateFilter, category: selectedCategory } = useFilter()
+  const { updateFilter, filter } = useFilter()
 
   const queryClient = useQueryClient()
 
@@ -36,7 +36,7 @@ function CategoryItem({ category }: { category: AchievementCategory }) {
   return (
     <SidebarItem
       key={category.id}
-      active={selectedCategory === category.id}
+      active={filter.category === category.id}
       contextMenuItems={
         <>
           <ContextMenuItem
