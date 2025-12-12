@@ -23,7 +23,7 @@
     "allDifficulties": "Semua Kesukaran"
   },
   "empty": {
-    "achievement": {
+    "achievements": {
       "title": "Tiada Pencapaian",
       "description": "Anda belum menambah sebarang pencapaian lagi. Klik butang di atas untuk menambah satu."
     },

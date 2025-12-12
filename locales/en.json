@@ -23,7 +23,7 @@
     "allDifficulties": "All Difficulties"
   },
   "empty": {
-    "achievement": {
+    "achievements": {
       "title": "No Achievements",
       "description": "You haven't added any achievements yet. Click the button above to add one."
     },

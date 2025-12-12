@@ -23,7 +23,7 @@
     "allDifficulties": "所有难度"
   },
   "empty": {
-    "achievement": {
+    "achievements": {
       "title": "没有成就",
       "description": "你还没有添加任何成就。点击上面的按钮添加一个。"
     },
