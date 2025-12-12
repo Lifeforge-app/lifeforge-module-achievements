@@ -81,6 +81,7 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
       />
       <SearchInput
         className="mt-6"
+        debounceMs={300}
         namespace="apps.achievements"
         searchTarget="achievement"
         value={searchQuery}

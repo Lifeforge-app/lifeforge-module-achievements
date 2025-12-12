@@ -1,5 +1,4 @@
 import { DIFFICULTIES } from '@'
-import { useDebounce } from '@uidotdev/usehooks'
 import {
   parseAsBoolean,
   parseAsString,
@@ -13,8 +12,6 @@ export default function useFilter() {
     'q',
     parseAsString.withDefault('')
   )
-
-  const debouncedSearchQuery = useDebounce(searchQuery, 300)
 
   const [filter, setFilter] = useQueryStates({
     difficulty: parseAsStringEnum(Object.keys(DIFFICULTIES)).withDefault(''),
@@ -31,9 +28,8 @@ export default function useFilter() {
 
   return {
     searchQuery,
-    debouncedSearchQuery,
     setSearchQuery,
-    ...filter,
+    filter,
     updateFilter
   }
 }
