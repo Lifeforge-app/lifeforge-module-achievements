@@ -70,7 +70,7 @@ const achievementsSchemas = {
         },
         {
           cascadeDelete: false,
-          collectionId: 'pbc_64679337',
+          collectionId: 'achievements__categories',
           hidden: false,
           maxSelect: 1,
           minSelect: 0,
