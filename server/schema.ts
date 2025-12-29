@@ -11,7 +11,6 @@ const achievementsSchemas = {
       updated: z.string()
     }),
     raw: {
-      id: 'yqajgwlhsd8so4p',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -23,7 +22,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -37,7 +35,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'ixmmysb1',
           max: 0,
           min: 0,
           name: 'title',
@@ -51,7 +48,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'cy2emstv',
           max: 0,
           min: 0,
           name: 'thoughts',
@@ -64,7 +60,6 @@ const achievementsSchemas = {
         },
         {
           hidden: false,
-          id: 'auhot6r4',
           maxSelect: 1,
           name: 'difficulty',
           presentable: false,
@@ -77,7 +72,6 @@ const achievementsSchemas = {
           cascadeDelete: false,
           collectionId: 'pbc_64679337',
           hidden: false,
-          id: 'relation105650625',
           maxSelect: 1,
           minSelect: 0,
           name: 'category',
@@ -88,7 +82,6 @@ const achievementsSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate2990389176',
           name: 'created',
           onCreate: true,
           onUpdate: false,
@@ -98,7 +91,6 @@ const achievementsSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate3332085495',
           name: 'updated',
           onCreate: true,
           onUpdate: true,
@@ -118,7 +110,6 @@ const achievementsSchemas = {
       icon: z.string()
     }),
     raw: {
-      id: 'pbc_64679337',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -130,7 +121,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -144,7 +134,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text1579384326',
           max: 0,
           min: 0,
           name: 'name',
@@ -158,7 +147,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text1716930793',
           max: 0,
           min: 0,
           name: 'color',
@@ -172,7 +160,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text1704208859',
           max: 0,
           min: 0,
           name: 'icon',
@@ -196,7 +183,6 @@ const achievementsSchemas = {
       amount: z.number()
     }),
     raw: {
-      id: 'pbc_839151639',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -208,7 +194,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -222,7 +207,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_fYfy',
           max: 0,
           min: 0,
           name: 'name',
@@ -236,7 +220,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_C6GB',
           max: 0,
           min: 0,
           name: 'icon',
@@ -250,7 +233,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_eoaK',
           max: 0,
           min: 0,
           name: 'color',
@@ -263,7 +245,6 @@ const achievementsSchemas = {
         },
         {
           hidden: false,
-          id: 'number2392944706',
           max: null,
           min: null,
           name: 'amount',
@@ -286,7 +267,6 @@ const achievementsSchemas = {
       count: z.number()
     }),
     raw: {
-      id: 'pbc_4003031467',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -298,7 +278,6 @@ const achievementsSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -311,7 +290,6 @@ const achievementsSchemas = {
         },
         {
           hidden: false,
-          id: 'json3144380399',
           maxSize: 1,
           name: 'difficulty',
           presentable: false,
@@ -321,7 +299,6 @@ const achievementsSchemas = {
         },
         {
           hidden: false,
-          id: 'number2245608546',
           max: null,
           min: null,
           name: 'count',
