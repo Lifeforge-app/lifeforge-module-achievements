@@ -1,6 +1,12 @@
 {
-  "name": "achievements",
-  "version": "dev. 25w43",
+  "name": "@lifeforge/lifeforge--achievements",
+  "displayName": "Achievements",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifeforge-app/lifeforge-module-achievements.git"
+  },
+  "version": "0.0.1",
+  "author": "melvinchia3636 <melvinchia623600@gmail.com>",
   "description": "Celebrate your victories big and small.",
   "scripts": {
     "types": "cd client && bun tsc"
@@ -23,5 +29,17 @@
   "devDependencies": {
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0"
+  },
+  "exports": {
+    "./server": "./server/index.ts",
+    "./manifest": {
+      "types": "./manifest.d.ts",
+      "default": "./manifest.ts"
+    },
+    "./server/schema": "./server/schema.ts"
+  },
+  "lifeforge": {
+    "icon": "tabler:award",
+    "category": "Productivity"
   }
 }
