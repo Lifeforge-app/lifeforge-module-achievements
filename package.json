@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/lifeforge-app/lifeforge-module-achievements.git"
   },
-  "version": "0.0.2",
+  "version": "0.0.4",
   "author": "melvinchia3636 <melvinchia623600@gmail.com>",
   "description": "Celebrate your victories big and small.",
   "scripts": {
