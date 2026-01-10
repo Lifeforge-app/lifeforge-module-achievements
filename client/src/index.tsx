@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import {
   Button,
@@ -12,14 +11,17 @@ import {
 } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
-import type { InferOutput } from 'shared'
+import { type InferOutput } from 'shared'
 import colors from 'tailwindcss/colors'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import EntryItem from './components/EntryItem'
 import InnerHeader from './components/InnerHeader'
 import Sidebar from './components/Sidebar'
 import ModifyAchievementModal from './components/modals/ModifyAchievementModal'
 import useFilter from './hooks/useFilter'
+import './index.css'
 
 export type Achievement = InferOutput<
   typeof forgeAPI.achievements.entries.list
@@ -39,7 +41,7 @@ export const DIFFICULTIES = {
 function Achievements() {
   const { t } = useTranslation('apps.achievements')
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { filter, searchQuery } = useFilter()
 

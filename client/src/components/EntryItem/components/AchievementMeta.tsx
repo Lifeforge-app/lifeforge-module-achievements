@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
@@ -6,6 +5,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { usePersonalization } from 'shared'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 dayjs.extend(relativeTime)
 

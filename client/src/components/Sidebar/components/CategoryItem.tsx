@@ -1,7 +1,4 @@
 import type { AchievementCategory } from '@'
-import ModifyCategoriesModal from '@/components/modals/ModifyCategoriesModal'
-import useFilter from '@/hooks/useFilter'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   ConfirmationModal,
@@ -11,8 +8,12 @@ import {
 } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 
+import ModifyCategoriesModal from '@/components/modals/ModifyCategoriesModal'
+import useFilter from '@/hooks/useFilter'
+import forgeAPI from '@/utils/forgeAPI'
+
 function CategoryItem({ category }: { category: AchievementCategory }) {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { updateFilter, filter } = useFilter()
 

@@ -1,6 +1,7 @@
-import useFilter from '@/hooks/useFilter'
 import { SidebarDivider, SidebarItem, SidebarWrapper } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
+
+import useFilter from '@/hooks/useFilter'
 
 import CategoriesSection from './components/CategoriesSection'
 import DifficultiesSection from './components/DifficultiesSection'

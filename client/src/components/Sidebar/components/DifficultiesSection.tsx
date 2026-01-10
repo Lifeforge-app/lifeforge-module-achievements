@@ -1,10 +1,11 @@
 import { DIFFICULTIES } from '@'
-import useFilter from '@/hooks/useFilter'
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import { SidebarItem, SidebarTitle, WithQuery } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
 import { usePersonalization } from 'shared'
+
+import useFilter from '@/hooks/useFilter'
+import forgeAPI from '@/utils/forgeAPI'
 
 function DifficultiesSection() {
   const { t } = useTranslation('apps.achievements')

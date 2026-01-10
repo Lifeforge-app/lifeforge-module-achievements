@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   ConfirmationModal,
@@ -8,11 +7,13 @@ import {
 } from 'lifeforge-ui'
 import { useCallback } from 'react'
 
+import forgeAPI from '@/utils/forgeAPI'
+
 import type { Achievement } from '../../..'
 import ModifyAchievementModal from '../../modals/ModifyAchievementModal'
 
 function ActionMenu({ entry }: { entry: Achievement }) {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const queryClient = useQueryClient()
 

@@ -1,5 +1,4 @@
 import { DIFFICULTIES } from '@'
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import {
   Button,
@@ -8,6 +7,8 @@ import {
   useModuleSidebarState
 } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import useFilter from '../hooks/useFilter'
 

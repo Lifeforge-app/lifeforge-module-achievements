@@ -13,8 +13,8 @@ const list = forgeController
   .input({
     query: z.object({
       difficulty:
-        SCHEMAS.achievements.entries.schema.shape.difficulty.optional(),
-      category: z.string().optional(),
+        SCHEMAS.achievements.entries.schema.shape.difficulty.optional().nullable(),
+      category: z.string().optional().nullable(),
       query: z.string().optional()
     })
   })

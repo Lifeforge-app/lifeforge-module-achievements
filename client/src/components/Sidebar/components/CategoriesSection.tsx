@@ -1,6 +1,3 @@
-import ModifyCategoriesModal from '@/components/modals/ModifyCategoriesModal'
-import useFilter from '@/hooks/useFilter'
-import forgeAPI from '@/utils/forgeAPI'
 import {
   EmptyStateScreen,
   SidebarItem,
@@ -11,6 +8,10 @@ import {
 import { useTranslation } from 'react-i18next'
 import { usePersonalization } from 'shared'
 
+import ModifyCategoriesModal from '@/components/modals/ModifyCategoriesModal'
+import useFilter from '@/hooks/useFilter'
+import forgeAPI from '@/utils/forgeAPI'
+
 import CategoryItem from './CategoryItem'
 
 function CategoriesSection() {
@@ -20,7 +21,7 @@ function CategoriesSection() {
 
   const { updateFilter, filter } = useFilter()
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   return (
     <>
