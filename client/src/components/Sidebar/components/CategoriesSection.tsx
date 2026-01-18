@@ -34,7 +34,7 @@ function CategoriesSection() {
         }}
         label={t('sidebar.categories')}
       />
-      <WithQueryData controller={forgeAPI.achievements.categories.list}>
+      <WithQueryData controller={forgeAPI.categories.list}>
         {data =>
           data.length === 0 ? (
             <EmptyStateScreen

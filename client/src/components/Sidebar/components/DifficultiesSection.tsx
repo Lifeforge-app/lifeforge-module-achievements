@@ -15,7 +15,7 @@ function DifficultiesSection() {
   const { updateFilter, filter } = useFilter()
 
   const difficultiesCountQuery = useQuery(
-    forgeAPI.achievements.entries.difficultiesCount.queryOptions()
+    forgeAPI.entries.difficultiesCount.queryOptions()
   )
 
   return (

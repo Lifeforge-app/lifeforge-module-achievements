@@ -17,9 +17,7 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
 
   const { setIsSidebarOpen } = useModuleSidebarState()
 
-  const categoriesQuery = useQuery(
-    forgeAPI.achievements.categories.list.queryOptions()
-  )
+  const categoriesQuery = useQuery(forgeAPI.categories.list.queryOptions())
 
   const { filter, updateFilter, searchQuery, setSearchQuery } = useFilter()
 

@@ -25,9 +25,7 @@ function AchievementMeta({
 
   const { language } = usePersonalization()
 
-  const categoriesQuery = useQuery(
-    forgeAPI.achievements.categories.list.queryOptions()
-  )
+  const categoriesQuery = useQuery(forgeAPI.categories.list.queryOptions())
 
   const categories = categoriesQuery.data || []
 

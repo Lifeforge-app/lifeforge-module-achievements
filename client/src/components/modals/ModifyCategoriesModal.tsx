@@ -19,8 +19,8 @@ function ModifyCategoriesModal({
 
   const mutation = useMutation(
     (modifyType === 'create'
-      ? forgeAPI.achievements.categories.create
-      : forgeAPI.achievements.categories.update.input({
+      ? forgeAPI.categories.create
+      : forgeAPI.categories.update.input({
           id: initialData?.id || ''
         })
     ).mutationOptions({
@@ -33,9 +33,7 @@ function ModifyCategoriesModal({
   )
 
   const { formProps } = defineForm<
-    InferInput<
-      (typeof forgeAPI.achievements.categories)[typeof modifyType]
-    >['body']
+    InferInput<(typeof forgeAPI.categories)[typeof modifyType]>['body']
   >({
     icon: modifyType === 'create' ? 'tabler:plus' : 'tabler:pencil',
     title: `achievement.category.${modifyType}`,

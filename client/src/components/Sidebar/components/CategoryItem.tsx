@@ -20,18 +20,16 @@ function CategoryItem({ category }: { category: AchievementCategory }) {
   const queryClient = useQueryClient()
 
   const deleteMutation = useMutation(
-    forgeAPI.achievements.categories.remove
-      .input({ id: category.id })
-      .mutationOptions({
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['achievements', 'categories']
-          })
-        },
-        onError: () => {
-          toast.error('Failed to delete category. Please try again.')
-        }
-      })
+    forgeAPI.categories.remove.input({ id: category.id }).mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['achievements', 'categories']
+        })
+      },
+      onError: () => {
+        toast.error('Failed to delete category. Please try again.')
+      }
+    })
   )
 
   return (

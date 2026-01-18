@@ -30,9 +30,7 @@ function ModifyAchievementModal({
 
   const { filter } = useFilter()
 
-  const categoriesQuery = useQuery(
-    forgeAPI.achievements.categories.list.queryOptions()
-  )
+  const categoriesQuery = useQuery(forgeAPI.categories.list.queryOptions())
 
   const categories = categoriesQuery.data || []
 
@@ -40,8 +38,8 @@ function ModifyAchievementModal({
 
   const mutation = useMutation(
     (modifyType === 'create'
-      ? forgeAPI.achievements.entries.create
-      : forgeAPI.achievements.entries.update.input({
+      ? forgeAPI.entries.create
+      : forgeAPI.entries.update.input({
           id: initialData?.id || '' || ''
         })
     ).mutationOptions({
@@ -54,9 +52,7 @@ function ModifyAchievementModal({
   )
 
   const { formProps } = defineForm<
-    InferInput<
-      (typeof forgeAPI.achievements.entries)[typeof modifyType]
-    >['body']
+    InferInput<(typeof forgeAPI.entries)[typeof modifyType]>['body']
   >({
     icon: modifyType === 'create' ? 'tabler:plus' : 'tabler:pencil',
     title: `achievement.${modifyType}`,

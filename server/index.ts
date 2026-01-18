@@ -1,9 +1,13 @@
-import { forgeRouter } from '@functions/routes'
+import { forgeRouter } from '@lifeforge/server-utils'
 
-import categoriesRouter from './routes/categories'
-import entriesRouter from './routes/entries'
+import * as categoriesRoutes from './routes/categories'
+import * as entriesRoutes from './routes/entries'
 
-export default forgeRouter({
-  entries: entriesRouter,
-  categories: categoriesRouter
+const routes = forgeRouter({
+  entries: entriesRoutes,
+  categories: categoriesRoutes
 })
+
+export type routesType = typeof routes
+
+export default routes

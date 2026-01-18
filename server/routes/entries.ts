@@ -1,29 +1,28 @@
-import { forgeController, forgeRouter } from '@functions/routes'
-import { SCHEMAS } from '@schema'
 import z from 'zod'
 
-const list = forgeController
+import forge from '../forge'
+import achievementsSchemas from '../schema'
+
+export const list = forge
   .query()
-  .description({
-    en: 'Get the list of achievement entries with optional filtering by difficulty, category, or search query',
-    ms: 'Dapatkan senarai entri pencapaian dengan penapisan pilihan mengikut kesukaran, kategori, atau carian',
-    'zh-CN': '获取成就条目的列表，可选择按难度、类别或搜索查询进行过滤',
-    'zh-TW': '獲取成就條目的列表，可選擇按難度、類別或搜索查詢進行過濾'
-  })
+  .description(
+    'Get the list of achievement entries with optional filtering by difficulty, category, or search query'
+  )
   .input({
     query: z.object({
-      difficulty:
-        SCHEMAS.achievements.entries.schema.shape.difficulty.optional().nullable(),
+      difficulty: achievementsSchemas.entries.shape.difficulty
+        .optional()
+        .nullable(),
       category: z.string().optional().nullable(),
       query: z.string().optional()
     })
   })
   .existenceCheck('query', {
-    category: '[achievements__categories]'
+    category: '[categories]'
   })
   .callback(async ({ pb, query: { difficulty, category, query } }) =>
     pb.getFullList
-      .collection('achievements__entries')
+      .collection('entries')
       .filter([
         difficulty && {
           field: 'difficulty',
@@ -59,36 +58,24 @@ const list = forgeController
       .execute()
   )
 
-const difficultiesCount = forgeController
+export const difficultiesCount = forge
   .query()
-  .description({
-    en: 'Get the count of achievement entries grouped by difficulty',
-    ms: 'Dapatkan kiraan entri pencapaian yang dikelompokkan mengikut kesukaran',
-    'zh-CN': '获取按难度分组的成就条目计数',
-    'zh-TW': '獲取按難度分組的成就條目計數'
-  })
+  .description('Get the count of achievement entries grouped by difficulty')
   .input({})
   .callback(
     async ({ pb }) =>
       Object.fromEntries(
         (
-          await pb.getFullList
-            .collection('achievements__difficulties_aggregated')
-            .execute()
+          await pb.getFullList.collection('difficulties_aggregated').execute()
         ).map(item => [item.difficulty, item.count])
       ) as Record<string, number>
   )
 
-const create = forgeController
+export const create = forge
   .mutation()
-  .description({
-    en: 'Create a new achievements entry',
-    ms: 'Cipta entri pencapaian baharu',
-    'zh-CN': '创建新的成就条目',
-    'zh-TW': '創建新的成就條目'
-  })
+  .description('Create a new achievements entry')
   .input({
-    body: SCHEMAS.achievements.entries.schema
+    body: achievementsSchemas.entries
       .omit({
         created: true,
         updated: true
@@ -99,22 +86,17 @@ const create = forgeController
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
-    pb.create.collection('achievements__entries').data(body).execute()
+    pb.create.collection('entries').data(body).execute()
   )
 
-const update = forgeController
+export const update = forge
   .mutation()
-  .description({
-    en: 'Update an existing achievements entry',
-    ms: 'Kemas kini entri pencapaian sedia ada',
-    'zh-CN': '更新现有的成就条目',
-    'zh-TW': '更新現有的成就條目'
-  })
+  .description('Update an existing achievements entry')
   .input({
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.achievements.entries.schema
+    body: achievementsSchemas.entries
       .omit({
         created: true,
         updated: true
@@ -124,37 +106,24 @@ const update = forgeController
       })
   })
   .existenceCheck('query', {
-    id: 'achievements__entries'
+    id: 'entries'
   })
   .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('achievements__entries').id(id).data(body).execute()
+    pb.update.collection('entries').id(id).data(body).execute()
   )
 
-const remove = forgeController
+export const remove = forge
   .mutation()
-  .description({
-    en: 'Delete an achievements entry',
-    ms: 'Padam entri pencapaian',
-    'zh-CN': '删除成就条目',
-    'zh-TW': '刪除成就條目'
-  })
+  .description('Delete an achievements entry')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'achievements__entries'
+    id: 'entries'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('achievements__entries').id(id).execute()
+    pb.delete.collection('entries').id(id).execute()
   )
-
-export default forgeRouter({
-  list,
-  difficultiesCount,
-  create,
-  update,
-  remove
-})

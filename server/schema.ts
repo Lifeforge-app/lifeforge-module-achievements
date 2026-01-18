@@ -1,6 +1,7 @@
 import z from 'zod'
+import { cleanSchemas } from '@lifeforge/server-utils'
 
-const achievementsSchemas = {
+export const schemas = {
   entries: {
     schema: z.object({
       title: z.string(),
@@ -317,4 +318,4 @@ const achievementsSchemas = {
   }
 }
 
-export default achievementsSchemas
+export default cleanSchemas(schemas)

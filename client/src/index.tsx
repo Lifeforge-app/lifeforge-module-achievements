@@ -23,12 +23,10 @@ import ModifyAchievementModal from './components/modals/ModifyAchievementModal'
 import useFilter from './hooks/useFilter'
 import './index.css'
 
-export type Achievement = InferOutput<
-  typeof forgeAPI.achievements.entries.list
->[number]
+export type Achievement = InferOutput<typeof forgeAPI.entries.list>[number]
 
 export type AchievementCategory = InferOutput<
-  typeof forgeAPI.achievements.categories.list
+  typeof forgeAPI.categories.list
 >[number]
 
 export const DIFFICULTIES = {
@@ -46,7 +44,7 @@ function Achievements() {
   const { filter, searchQuery } = useFilter()
 
   const entriesQuery = useQuery(
-    forgeAPI.achievements.entries.list
+    forgeAPI.entries.list
       .input({
         difficulty:
           (filter.difficulty as Achievement['difficulty']) || undefined,

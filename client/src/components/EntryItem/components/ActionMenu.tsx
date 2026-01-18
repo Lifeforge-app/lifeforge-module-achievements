@@ -18,7 +18,7 @@ function ActionMenu({ entry }: { entry: Achievement }) {
   const queryClient = useQueryClient()
 
   const deleteMutation = useMutation(
-    forgeAPI.achievements.entries.remove
+    forgeAPI.entries.remove
       .input({
         id: entry.id
       })
