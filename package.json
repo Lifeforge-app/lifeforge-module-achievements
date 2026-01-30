@@ -5,13 +5,13 @@
     "type": "git",
     "url": "https://github.com/lifeforge-app/lifeforge-module-achievements.git"
   },
-  "version": "0.0.8",
+  "version": "0.0.10",
   "author": "melvinchia3636 <melvinchia623600@gmail.com>",
   "description": "Celebrate your victories big and small.",
   "scripts": {
     "types": "cd client && bun tsc",
     "build:client": "cd client && bun run vite build",
-    "build:server": "bun build ./server/index.ts --outdir ./server/dist --target bun --external @lifeforge/server-utils --external zod"
+    "build:server": "bun build ./server/index.ts --outdir ./server/dist --target node --external @lifeforge/server-utils --external zod"
   },
   "dependencies": {},
   "devDependencies": {},
@@ -20,8 +20,8 @@
     "category": "Lifestyle"
   },
   "peerDependencies": {
-    "@lifeforge/server-utils": "workspace:*",
-    "lifeforge-ui": "workspace:*",
-    "shared": "workspace:*"
+    "@lifeforge/server-utils": "0.0.1",
+    "lifeforge-ui": "0.25.29-1",
+    "shared": "0.0.1"
   }
 }
