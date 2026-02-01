@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { Box, Flex, Text } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { usePersonalization } from 'shared'
@@ -35,35 +36,57 @@ function AchievementMeta({
   )()
 
   return (
-    <div>
-      <div className="mb-1 flex flex-wrap items-center gap-2 sm:mr-12">
-        {categoryData && (
-          <>
-            <p className="text-bg-600 dark:text-bg-400 flex items-center gap-1 text-sm font-medium">
-              <div
-                className="rounded-sm p-1"
-                style={{ backgroundColor: categoryData.color + '20' }}
-              >
-                <Icon
-                  className="h-4 w-4"
-                  icon={categoryData.icon}
-                  style={{ color: categoryData.color }}
-                />
-              </div>
-              {categoryData.name}
-            </p>
-            <Icon className="text-bg-500 size-1" icon="tabler:circle-filled" />
-          </>
-        )}
-        <p className="text-bg-400 text-sm">
-          {t('accomplishedOn', {
-            date: dayjs(created).locale(language).fromNow()
-          })}
-        </p>
-      </div>
-      <h2 className="text-lg font-semibold sm:mr-12">{title}</h2>
-      <p className="text-bg-500 mt-1 text-sm whitespace-pre-wrap">{thoughts}</p>
-    </div>
+<Box>
+  <Flex
+    align="center"
+    gap="xs"
+    mb="xs"
+    mr={{ base: 'none', sm: 'md' }}
+    wrap="wrap"
+  >
+    {categoryData && (
+      <>
+        <Text asChild color="muted" size="sm" weight="medium">
+          <Flex align="center" as="p" gap="xs">
+            <Box
+              p="xs"
+              rounded="sm"
+              style={{ backgroundColor: `${categoryData.color}20` }}
+            >
+              <Icon
+                height={12}
+                icon={categoryData.icon}
+                style={{ color: categoryData.color }}
+                width={12}
+              />
+            </Box>
+            {categoryData.name}
+          </Flex>
+        </Text>
+        <Text asChild color="muted">
+          <Icon height={4} icon="tabler:circle-filled" width={4} />
+        </Text>
+      </>
+    )}
+    <Text as="p" color="muted" size="sm">
+      {t('accomplishedOn', {
+        date: dayjs(created).locale(language).fromNow()
+      })}
+    </Text>
+  </Flex>
+  <Text
+    as="h2"
+    mb="xs"
+    mr={{ base: 'none', sm: 'md' }}
+    size="lg"
+    weight="semibold"
+  >
+    {title}
+  </Text>
+  <Text as="p" color="muted" size="sm">
+    {thoughts}
+  </Text>
+</Box>
   )
 }
 

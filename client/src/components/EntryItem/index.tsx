@@ -1,4 +1,4 @@
-import { Card } from 'lifeforge-ui'
+import { Card, Flex } from 'lifeforge-ui'
 
 import type { Achievement } from '../..'
 import AchievementMeta from './components/AchievementMeta'
@@ -7,8 +7,8 @@ import AwardIcon from './components/AwardIcon'
 
 function EntryItem({ entry }: { entry: Achievement }) {
   return (
-    <Card as="li" className="flex items-start justify-between gap-3">
-      <div className="flex flex-col gap-3 sm:flex-row">
+    <Card align="start" as={Flex} gap="lg" justify="between">
+      <Flex direction={{ base: 'column', sm: 'row' }} gap="md">
         <AwardIcon difficulty={entry.difficulty} />
         <AchievementMeta
           category={entry.category}
@@ -16,7 +16,7 @@ function EntryItem({ entry }: { entry: Achievement }) {
           thoughts={entry.thoughts}
           title={entry.title}
         />
-      </div>
+      </Flex>
       <ActionMenu entry={entry} />
     </Card>
   )

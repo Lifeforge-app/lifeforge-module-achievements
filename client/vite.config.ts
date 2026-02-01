@@ -1,5 +1,6 @@
 import federation from '@originjs/vite-plugin-federation'
 import tailwindcss from '@tailwindcss/vite'
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
 import path from 'node:path'
@@ -29,6 +30,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    vanillaExtractPlugin(),
     federation({
       name: moduleName,
       filename: 'remoteEntry.js',
