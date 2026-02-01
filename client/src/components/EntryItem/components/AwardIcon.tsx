@@ -1,24 +1,32 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
-import clsx from 'clsx'
+import { Box } from 'lifeforge-ui'
 
 import type { Achievement } from '../../..'
 
+const DIFFICULTY_COLORS = {
+  easy: '#22c55e',
+  medium: '#eab308',
+  hard: '#ef4444',
+  impossible: '#a855f7'
+} as const
+
 function AwardIcon({ difficulty }: { difficulty: Achievement['difficulty'] }) {
   return (
-    <div
-      className={clsx(
-        'flex-center size-12 shrink-0 rounded-md',
-        {
-          easy: 'border-2 border-green-500 bg-green-500/20 text-green-500',
-          medium: 'border-2 border-yellow-500 bg-yellow-500/20 text-yellow-500',
-          hard: 'border-2 border-red-500 bg-red-500/20 text-red-500',
-          impossible:
-            'border-2 border-purple-500 bg-purple-500/20 text-purple-500'
-        }[difficulty]
-      )}
-    >
-      <Icon className="size-8" icon="tabler:award" />
-    </div>
+    <Box>
+      <Box
+        p="sm"
+        rounded="md"
+        style={{
+          borderWidth: '1.5px',
+          borderColor: DIFFICULTY_COLORS[difficulty],
+          backgroundColor: `${DIFFICULTY_COLORS[difficulty]}20`,
+          color: DIFFICULTY_COLORS[difficulty],
+          width: 'min-content'
+        }}
+      >
+        <Icon height={24} icon="tabler:award" width={24} />
+      </Box>
+    </Box>
   )
 }
 
