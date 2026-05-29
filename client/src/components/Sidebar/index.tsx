@@ -1,5 +1,6 @@
-import { SidebarDivider, SidebarItem, SidebarWrapper } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
+
+import { SidebarDivider, SidebarItem, SidebarWrapper } from '@lifeforge/ui'
 
 import useFilter from '@/hooks/useFilter'
 

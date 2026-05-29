@@ -1,12 +1,15 @@
 import { DIFFICULTIES } from '@'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+
 import {
   Button,
+  Flex,
   SearchInput,
   TagsFilter,
+  Text,
   useModuleSidebarState
-} from 'lifeforge-ui'
-import { useTranslation } from 'react-i18next'
+} from '@lifeforge/ui'
 
 import forgeAPI from '@/utils/forgeAPI'
 
@@ -23,25 +26,30 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
 
   return (
     <>
-      <header className="flex-between flex w-full">
-        <div className="flex min-w-0 items-end">
-          <h1 className="truncate text-2xl font-semibold xl:text-3xl">
+      <Flex align="center" as="header" justify="between">
+        <Flex align="baseline" minWidth="0">
+          <Text
+            truncate
+            as="h1"
+            size={{ base: '2xl', xl: '3xl' }}
+            weight="semibold"
+          >
             {t(`headers.${filter.difficulty || 'all'}`)}{' '}
             {filter.category ? `(${t('headers.filtered')})` : ''}
-          </h1>
-          <span className="text-bg-500 mr-8 ml-2 text-base">
+          </Text>
+          <Text color="muted" ml="sm" mr="xl">
             ({totalItemsCount})
-          </span>
-        </div>
+          </Text>
+        </Flex>
         <Button
-          className="lg:hidden"
+          display={{ base: 'flex', lg: 'none' }}
           icon="tabler:menu"
           variant="plain"
           onClick={() => {
             setIsSidebarOpen(true)
           }}
         />
-      </header>
+      </Flex>
       <TagsFilter
         availableFilters={{
           category: {
@@ -78,8 +86,8 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
         }}
       />
       <SearchInput
-        className="mt-6"
         debounceMs={300}
+        mt="lg"
         namespace="apps.achievements"
         searchTarget="achievement"
         value={searchQuery}

@@ -1,11 +1,12 @@
 import { DIFFICULTIES } from '@'
+
 import {
   parseAsBoolean,
   parseAsString,
   parseAsStringEnum,
   useQueryState,
   useQueryStates
-} from 'shared'
+} from '@lifeforge/shared'
 
 export default function useFilter() {
   const [searchQuery, setSearchQuery] = useQueryState(

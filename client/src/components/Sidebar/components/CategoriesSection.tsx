@@ -1,12 +1,13 @@
+import { useTranslation } from 'react-i18next'
+
+import { usePersonalization } from '@lifeforge/shared'
 import {
   EmptyStateScreen,
   SidebarItem,
   SidebarTitle,
   WithQueryData,
   useModalStore
-} from 'lifeforge-ui'
-import { useTranslation } from 'react-i18next'
-import { usePersonalization } from 'shared'
+} from '@lifeforge/ui'
 
 import ModifyCategoriesModal from '@/components/modals/ModifyCategoriesModal'
 import useFilter from '@/hooks/useFilter'
@@ -39,7 +40,6 @@ function CategoriesSection() {
           data.length === 0 ? (
             <EmptyStateScreen
               smaller
-              className="h-min"
               icon="tabler:apps-off"
               message={{
                 id: 'categories',

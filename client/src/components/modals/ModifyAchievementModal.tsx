@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { FormModal, defineForm } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
-import type { InferInput } from 'shared'
-import COLOR from 'tailwindcss/colors'
+
+import type { InferInput } from '@lifeforge/shared'
+import { FormModal, TAILWIND_PALETTE, defineForm } from '@lifeforge/ui'
 
 import useFilter from '@/hooks/useFilter'
 import forgeAPI from '@/utils/forgeAPI'
@@ -88,7 +88,7 @@ function ModifyAchievementModal({
         options: difficulties.map(([name, color]) => ({
           text: t(`difficulties.${name}`),
           value: name as Achievement['difficulty'],
-          color: COLOR[color as keyof typeof COLOR][500]
+          color: TAILWIND_PALETTE[color as keyof typeof TAILWIND_PALETTE][500]
         }))
       },
       category: {

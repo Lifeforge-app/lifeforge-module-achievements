@@ -1,7 +1,8 @@
 import type { AchievementCategory } from '@'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { FormModal, defineForm } from 'lifeforge-ui'
-import type { InferInput } from 'shared'
+
+import type { InferInput } from '@lifeforge/shared'
+import { FormModal, defineForm } from '@lifeforge/ui'
 
 import forgeAPI from '@/utils/forgeAPI'
 

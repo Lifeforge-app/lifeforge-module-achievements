@@ -1,4 +1,4 @@
-import { Card, Flex } from 'lifeforge-ui'
+import { Card, Flex } from '@lifeforge/ui'
 
 import type { Achievement } from '../..'
 import AchievementMeta from './components/AchievementMeta'

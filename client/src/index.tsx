@@ -1,5 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
+
+import { type InferOutput } from '@lifeforge/shared'
 import {
+  Box,
   Button,
   ContentWrapperWithSidebar,
   EmptyStateScreen,
@@ -7,12 +11,11 @@ import {
   LayoutWithSidebar,
   ModuleHeader,
   Scrollbar,
-  WithQuery
-} from 'lifeforge-ui'
-import { useModalStore } from 'lifeforge-ui'
-import { useTranslation } from 'react-i18next'
-import { type InferOutput } from 'shared'
-import colors from 'tailwindcss/colors'
+  Stack,
+  TAILWIND_PALETTE,
+  WithQuery,
+  useModalStore
+} from '@lifeforge/ui'
 
 import forgeAPI from '@/utils/forgeAPI'
 
@@ -21,7 +24,6 @@ import InnerHeader from './components/InnerHeader'
 import Sidebar from './components/Sidebar'
 import ModifyAchievementModal from './components/modals/ModifyAchievementModal'
 import useFilter from './hooks/useFilter'
-import './index.css'
 
 export type Achievement = InferOutput<typeof forgeAPI.entries.list>[number]
 
@@ -30,10 +32,10 @@ export type AchievementCategory = InferOutput<
 >[number]
 
 export const DIFFICULTIES = {
-  easy: colors.green[500],
-  medium: colors.yellow[500],
-  hard: colors.red[500],
-  impossible: colors.purple[500]
+  easy: TAILWIND_PALETTE.green[500],
+  medium: TAILWIND_PALETTE.yellow[500],
+  hard: TAILWIND_PALETTE.red[500],
+  impossible: TAILWIND_PALETTE.purple[500]
 }
 
 function Achievements() {
@@ -65,7 +67,7 @@ function Achievements() {
       <ModuleHeader
         actionButton={
           <Button
-            className="ml-4 hidden md:flex"
+            display={{ base: 'none', md: 'flex' }}
             icon="tabler:plus"
             namespace="apps.achievements"
             tProps={{
@@ -84,17 +86,19 @@ function Achievements() {
           <WithQuery query={entriesQuery}>
             {entries =>
               entries.length ? (
-                <Scrollbar className="mt-6">
-                  <ul className="mb-8 space-y-3">
-                    {entries.map(entry => (
-                      <EntryItem key={entry.id} entry={entry} />
-                    ))}
-                  </ul>
-                  <FAB
-                    visibilityBreakpoint="md"
-                    onClick={handleCreateAchievement}
-                  />
-                </Scrollbar>
+                <Box asChild mt="lg">
+                  <Scrollbar>
+                    <Stack mb="xl">
+                      {entries.map(entry => (
+                        <EntryItem key={entry.id} entry={entry} />
+                      ))}
+                    </Stack>
+                    <FAB
+                      visibilityBreakpoint="md"
+                      onClick={handleCreateAchievement}
+                    />
+                  </Scrollbar>
+                </Box>
               ) : (
                 <EmptyStateScreen
                   icon="tabler:award-off"
