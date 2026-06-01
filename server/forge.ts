@@ -1,7 +1,7 @@
-import { createForge } from '@lifeforge/server-utils'
+import { createForgeContractBuilder } from '@lifeforge/server-utils'
 
 import schema from './schema'
 
-const forge = createForge(schema)
+const forge = createForgeContractBuilder(schema)
 
 export default forge

@@ -33,14 +33,13 @@ export default defineConfig(({ command }) => {
           },
           {
             find: /^@lifeforge\/ui$/,
-            replacement: path.resolve(__dirname, '../../../packages/ui/src/index.ts')
+            replacement: path.resolve(
+              __dirname,
+              '../../../packages/ui/src/index.ts'
+            )
           }
         ]
       : []),
-    {
-      find: '@server',
-      replacement: path.resolve(__dirname, '../server')
-    },
     { find: /^@\/(.*)$/, replacement: path.resolve(__dirname, './src/$1') },
     { find: /^@$/, replacement: path.resolve(__dirname, './src/index') }
   ]

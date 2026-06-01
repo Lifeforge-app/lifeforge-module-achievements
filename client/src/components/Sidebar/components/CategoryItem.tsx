@@ -60,7 +60,7 @@ function CategoryItem({ category }: { category: AchievementCategory }) {
                   'Are you sure you want to delete this category? This action cannot be undone.',
                 confirmButton: 'Delete',
                 onConfirm: async () => {
-                  await deleteMutation.mutateAsync({})
+                  await deleteMutation.mutateAsync(undefined)
                 }
               })
             }}

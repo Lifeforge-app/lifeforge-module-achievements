@@ -38,7 +38,7 @@ function ActionMenu({ entry }: { entry: Achievement }) {
       description: 'Are you sure you want to delete this achievement?',
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [entry])
