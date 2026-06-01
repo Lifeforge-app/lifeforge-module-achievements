@@ -1,8 +1,10 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import z from 'zod'
 
-import type { InferInput } from '@lifeforge/shared'
-import { FormModal, TAILWIND_PALETTE, defineForm } from '@lifeforge/ui'
+import { FormModal, TAILWIND_PALETTE, TextAreaField, TextField, ListboxField, createDefaultValues } from '@lifeforge/ui'
 
 import useFilter from '@/hooks/useFilter'
 import forgeAPI from '@/utils/forgeAPI'
@@ -14,7 +16,14 @@ const difficulties = [
   ['medium', 'yellow'],
   ['hard', 'red'],
   ['impossible', 'purple']
-]
+] as const
+
+const schema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  thoughts: z.string().min(1, 'Thoughts are required'),
+  difficulty: z.enum(['easy', 'medium', 'hard', 'impossible']),
+  category: z.string().optional()
+})
 
 function ModifyAchievementModal({
   data: { modifyType, initialData },
@@ -40,7 +49,7 @@ function ModifyAchievementModal({
     (modifyType === 'create'
       ? forgeAPI.entries.create
       : forgeAPI.entries.update.input({
-          id: initialData?.id || '' || ''
+          id: initialData?.id || ''
         })
     ).mutationOptions({
       onSuccess: () => {
@@ -51,71 +60,79 @@ function ModifyAchievementModal({
     })
   )
 
-  const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI.entries)[typeof modifyType]>['body']
-  >({
-    icon: modifyType === 'create' ? 'tabler:plus' : 'tabler:pencil',
-    title: `achievement.${modifyType}`,
-    loading: categoriesQuery.isLoading,
-    onClose,
-    namespace: 'apps.achievements',
-    submitButton: modifyType
-  })
-    .typesMap({
-      difficulty: 'listbox',
-      title: 'text',
-      thoughts: 'textarea',
-      category: 'listbox'
-    })
-    .setupFields({
-      title: {
-        required: true,
-        label: 'Achievement title',
-        icon: 'tabler:award',
-        placeholder: 'My achievement'
-      },
-      thoughts: {
-        required: true,
-        label: 'Achievement thoughts',
-        icon: 'tabler:bubble-text',
-        placeholder: 'My thoughts'
-      },
-      difficulty: {
-        required: true,
-        multiple: false,
-        label: 'Achievement difficulty',
-        icon: 'tabler:circle-dot',
-        options: difficulties.map(([name, color]) => ({
-          text: t(`difficulties.${name}`),
-          value: name as Achievement['difficulty'],
-          color: TAILWIND_PALETTE[color as keyof typeof TAILWIND_PALETTE][500]
-        }))
-      },
-      category: {
-        required: false,
-        multiple: false,
-        label: 'Achievement category',
-        icon: 'tabler:category',
-        options: categories.map(category => ({
-          text: category.name,
-          color: category.color,
-          icon: category.icon,
-          value: category.id
-        }))
-      }
-    })
-    .initialData({
+  const form = useForm({
+    defaultValues: {
+      ...createDefaultValues(schema),
       ...initialData,
       difficulty:
         initialData?.difficulty ||
         (filter.difficulty as Achievement['difficulty'])
-    })
-    .onSubmit(async formData => {
-      await mutation.mutateAsync(formData)
-    })
-    .build()
+    },
+    mode: 'all',
+    resolver: zodResolver(schema)
+  })
 
-  return <FormModal {...formProps} />
+  const difficultyOptions = difficulties.map(([name, color]) => ({
+    text: t(`difficulties.${name}`),
+    value: name as Achievement['difficulty'],
+    color: TAILWIND_PALETTE[color as keyof typeof TAILWIND_PALETTE][500]
+  }))
+
+  const categoryOptions = categories.map(category => ({
+    text: category.name,
+    color: category.color,
+    icon: category.icon,
+    value: category.id
+  }))
+
+  return (
+    <FormModal
+      form={form}
+      submissionConfig={{
+        handler: mutation.mutateAsync,
+        template: modifyType
+      }}
+      uiConfig={{
+        icon: modifyType === 'create' ? 'tabler:plus' : 'tabler:pencil',
+        loading: categoriesQuery.isLoading,
+        namespace: 'apps.achievements',
+        title: `achievement.${modifyType}`,
+        onClose
+      }}
+    >
+      <TextField
+        required
+        control={form.control}
+        icon="tabler:award"
+        label="Achievement title"
+        name="title"
+        placeholder="My achievement"
+      />
+      <TextAreaField
+        required
+        control={form.control}
+        icon="tabler:bubble-text"
+        label="Achievement thoughts"
+        name="thoughts"
+        placeholder="My thoughts"
+      />
+      <ListboxField
+        required
+        control={form.control}
+        icon="tabler:circle-dot"
+        label="Achievement difficulty"
+        name="difficulty"
+        options={difficultyOptions}
+      />
+      <ListboxField
+        control={form.control}
+        icon="tabler:category"
+        label="Achievement category"
+        name="category"
+        options={categoryOptions}
+      />
+    </FormModal>
+  )
 }
 
 export default ModifyAchievementModal

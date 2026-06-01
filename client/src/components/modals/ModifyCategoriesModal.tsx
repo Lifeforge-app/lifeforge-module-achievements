@@ -1,10 +1,29 @@
 import type { AchievementCategory } from '@'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import z from 'zod'
 
-import type { InferInput } from '@lifeforge/shared'
-import { FormModal, defineForm } from '@lifeforge/ui'
+import {
+  ColorField,
+  FormModal,
+  IconField,
+  TextField,
+  createDefaultValues
+} from '@lifeforge/ui'
 
 import forgeAPI from '@/utils/forgeAPI'
+
+const schema = z.object({
+  name: z.string().min(1, 'Category name is required'),
+  color: z
+    .string()
+    .regex(
+      /^#[0-9A-Fa-f]{6}$/,
+      'Color must be a valid hex color (e.g. #FF0000)'
+    ),
+  icon: z.string().min(1, 'Category icon is required')
+})
 
 function ModifyCategoriesModal({
   onClose,
@@ -33,44 +52,52 @@ function ModifyCategoriesModal({
     })
   )
 
-  const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI.categories)[typeof modifyType]>['body']
-  >({
-    icon: modifyType === 'create' ? 'tabler:plus' : 'tabler:pencil',
-    title: `achievement.category.${modifyType}`,
-    onClose,
-    namespace: 'apps.achievements',
-    submitButton: modifyType
+  const form = useForm({
+    defaultValues: {
+      ...createDefaultValues(schema),
+      ...initialData
+    },
+    mode: 'all',
+    resolver: zodResolver(schema)
   })
-    .typesMap({
-      name: 'text',
-      color: 'color',
-      icon: 'icon'
-    })
-    .setupFields({
-      name: {
-        required: true,
-        label: 'Category name',
-        icon: 'tabler:category',
-        placeholder: 'My category'
-      },
-      color: {
-        required: true,
-        label: 'Category color'
-      },
-      icon: {
-        required: true,
-        label: 'Category icon'
-      }
-    })
-    .autoFocusField('name')
-    .initialData(initialData || {})
-    .onSubmit(async formData => {
-      await mutation.mutateAsync(formData)
-    })
-    .build()
 
-  return <FormModal {...formProps} />
+  return (
+    <FormModal
+      form={form}
+      submissionConfig={{
+        handler: mutation.mutateAsync,
+        template: modifyType
+      }}
+      uiConfig={{
+        icon: modifyType === 'create' ? 'tabler:plus' : 'tabler:pencil',
+        namespace: 'apps.achievements',
+        title: `achievement.category.${modifyType}`,
+        onClose
+      }}
+    >
+      <TextField
+        autoFocus
+        required
+        control={form.control}
+        icon="tabler:category"
+        label="Category name"
+        name="name"
+        placeholder="My category"
+      />
+      <ColorField
+        required
+        control={form.control}
+        label="Category color"
+        name="color"
+      />
+      <IconField
+        required
+        control={form.control}
+        label="Category icon"
+        name="icon"
+      />
+    </FormModal>
+  )
 }
 
 export default ModifyCategoriesModal
