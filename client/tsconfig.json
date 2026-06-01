@@ -33,14 +33,10 @@
       "@/*": [
         "./src/*"
       ],
-      "@server/*": [
-        "../server/*"
-      ]
     }
   },
   "include": [
     "./src/**/*",
     "./manifest.ts",
-    "../server/**/*"
   ]
 }

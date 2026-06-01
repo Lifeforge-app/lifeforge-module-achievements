@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useCallback } from 'react'
+
 import {
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
   useModalStore
-} from 'lifeforge-ui'
-import { useCallback } from 'react'
+} from '@lifeforge/ui'
 
 import forgeAPI from '@/utils/forgeAPI'
 
@@ -37,7 +38,7 @@ function ActionMenu({ entry }: { entry: Achievement }) {
       description: 'Are you sure you want to delete this achievement?',
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [entry])
@@ -50,7 +51,15 @@ function ActionMenu({ entry }: { entry: Achievement }) {
   }, [entry])
 
   return (
-    <ContextMenu classNames={{ wrapper: 'absolute right-3 top-3' }}>
+    <ContextMenu
+      styles={{
+        wrapper: {
+          position: 'absolute',
+          top: '1em',
+          right: '1em'
+        }
+      }}
+    >
       <ContextMenuItem
         icon="tabler:pencil"
         label="Edit"

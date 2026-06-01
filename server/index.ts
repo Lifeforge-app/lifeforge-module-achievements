@@ -1,4 +1,4 @@
-import { forgeRouter } from '@lifeforge/server-utils'
+import { forgeRouter, writeContractFileToClient } from '@lifeforge/server-utils'
 
 import * as categoriesRoutes from './routes/categories'
 import * as entriesRoutes from './routes/entries'
@@ -8,6 +8,6 @@ const routes = forgeRouter({
   categories: categoriesRoutes
 })
 
-export type routesType = typeof routes
+writeContractFileToClient(routes, import.meta.dirname)
 
 export default routes

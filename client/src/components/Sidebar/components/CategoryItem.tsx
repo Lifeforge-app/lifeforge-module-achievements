@@ -1,12 +1,13 @@
 import type { AchievementCategory } from '@'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
+
 import {
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
   useModalStore
-} from 'lifeforge-ui'
-import { toast } from 'react-toastify'
+} from '@lifeforge/ui'
 
 import ModifyCategoriesModal from '@/components/modals/ModifyCategoriesModal'
 import useFilter from '@/hooks/useFilter'
@@ -59,7 +60,7 @@ function CategoryItem({ category }: { category: AchievementCategory }) {
                   'Are you sure you want to delete this category? This action cannot be undone.',
                 confirmButton: 'Delete',
                 onConfirm: async () => {
-                  await deleteMutation.mutateAsync({})
+                  await deleteMutation.mutateAsync(undefined)
                 }
               })
             }}

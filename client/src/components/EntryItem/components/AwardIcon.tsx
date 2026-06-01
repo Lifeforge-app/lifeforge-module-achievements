@@ -1,5 +1,4 @@
-import { Icon } from '@iconify/react/dist/iconify.js'
-import { Box } from 'lifeforge-ui'
+import { Box, Icon } from '@lifeforge/ui'
 
 import type { Achievement } from '../../..'
 
@@ -15,7 +14,7 @@ function AwardIcon({ difficulty }: { difficulty: Achievement['difficulty'] }) {
     <Box>
       <Box
         p="sm"
-        rounded="md"
+        r="md"
         style={{
           borderWidth: '1.5px',
           borderColor: DIFFICULTY_COLORS[difficulty],
@@ -24,7 +23,7 @@ function AwardIcon({ difficulty }: { difficulty: Achievement['difficulty'] }) {
           width: 'min-content'
         }}
       >
-        <Icon height={24} icon="tabler:award" width={24} />
+        <Icon icon="tabler:award" size="1.5em" />
       </Box>
     </Box>
   )
