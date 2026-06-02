@@ -105,9 +105,6 @@ export const contract = {
         "OK": {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
-          "propertyNames": {
-            "type": "string"
-          },
           "additionalProperties": {
             "type": "number"
           }

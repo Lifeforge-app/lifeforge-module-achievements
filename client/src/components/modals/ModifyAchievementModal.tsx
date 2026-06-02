@@ -4,7 +4,14 @@ import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import z from 'zod'
 
-import { FormModal, TAILWIND_PALETTE, TextAreaField, TextField, ListboxField, createDefaultValues } from '@lifeforge/ui'
+import {
+  FormModal,
+  ListboxField,
+  TAILWIND_PALETTE,
+  TextAreaField,
+  TextField,
+  createDefaultValues
+} from '@lifeforge/ui'
 
 import useFilter from '@/hooks/useFilter'
 import forgeAPI from '@/utils/forgeAPI'
