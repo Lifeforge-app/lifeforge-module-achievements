@@ -6,7 +6,7 @@ import { usePersonalization } from '@lifeforge/shared'
 import { SidebarItem, SidebarTitle, WithQuery } from '@lifeforge/ui'
 
 import useFilter from '@/hooks/useFilter'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 function DifficultiesSection() {
   const { t } = useTranslation('apps.achievements')

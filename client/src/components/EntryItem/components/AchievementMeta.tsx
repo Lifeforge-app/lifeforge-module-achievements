@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { usePersonalization } from '@lifeforge/shared'
 import { Box, Flex, Icon, Text } from '@lifeforge/ui'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 dayjs.extend(relativeTime)
 

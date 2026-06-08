@@ -8,7 +8,7 @@ import {
   useModalStore
 } from '@lifeforge/ui'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import type { Achievement } from '../../..'
 import ModifyAchievementModal from '../../modals/ModifyAchievementModal'

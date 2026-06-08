@@ -11,7 +11,7 @@ import {
 
 import ModifyCategoriesModal from '@/components/modals/ModifyCategoriesModal'
 import useFilter from '@/hooks/useFilter'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import CategoryItem from './CategoryItem'
 
