@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { usePersonalization } from '@lifeforge/shared'
-import {
+import { usePersonalization ,
   EmptyStateScreen,
   SidebarItem,
   SidebarTitle,

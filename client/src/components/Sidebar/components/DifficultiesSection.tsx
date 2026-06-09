@@ -2,8 +2,7 @@ import { DIFFICULTIES } from '@'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 
-import { usePersonalization } from '@lifeforge/shared'
-import { SidebarItem, SidebarTitle, WithQuery } from '@lifeforge/ui'
+import { usePersonalization , SidebarItem, SidebarTitle, WithQuery } from '@lifeforge/ui'
 
 import useFilter from '@/hooks/useFilter'
 import { forgeAPI } from '@/manifest'

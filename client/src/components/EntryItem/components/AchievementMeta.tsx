@@ -4,8 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { usePersonalization } from '@lifeforge/shared'
-import { Box, Flex, Icon, Text } from '@lifeforge/ui'
+import { usePersonalization , Box, Flex, Icon, Text } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
