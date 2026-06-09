@@ -1,10 +1,11 @@
 import type { AchievementCategory } from '@'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { toast ,
+import {
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
+  toast,
   useModalStore
 } from '@lifeforge/ui'
 

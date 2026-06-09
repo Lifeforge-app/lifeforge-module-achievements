@@ -1,5 +1,4 @@
 import { DIFFICULTIES } from '@'
-
 import {
   parseAsBoolean,
   parseAsString,
