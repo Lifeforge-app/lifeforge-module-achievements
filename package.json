@@ -17,13 +17,7 @@
   "devDependencies": {},
   "lifeforge": {
     "icon": "tabler:award",
-    "category": "Lifestyle",
-    "APIKeyAccess": {
-      "nice": {
-        "usage": "Do some weird stuff",
-        "required": true
-      }
-    }
+    "category": "Lifestyle"
   },
   "peerDependencies": {
     "@lifeforge/api": "workspace:*",

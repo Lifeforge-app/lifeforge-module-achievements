@@ -47,17 +47,20 @@ function AchievementMeta({
           <>
             <Text asChild color="muted" size="sm" weight="medium">
               <Flex align="center" as="p" gap="xs">
-                <Box
-                  p="xs"
+                <Flex
+                  centered
+                  flexShrink="0"
+                  height="1.5em"
                   r="sm"
                   style={{ backgroundColor: `${categoryData.color}20` }}
+                  width="1.5em"
                 >
                   <Icon
                     icon={categoryData.icon}
-                    size="0.75em"
+                    size="0.8em"
                     style={{ color: categoryData.color }}
                   />
-                </Box>
+                </Flex>
                 {categoryData.name}
               </Flex>
             </Text>

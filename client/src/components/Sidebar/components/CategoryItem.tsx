@@ -1,8 +1,7 @@
 import type { AchievementCategory } from '@'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-toastify'
 
-import {
+import { toast ,
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
