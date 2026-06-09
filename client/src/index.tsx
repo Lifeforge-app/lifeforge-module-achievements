@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 
-import { type InferOutput } from '@lifeforge/shared'
+import { type InferOutput } from '@lifeforge/api'
 import {
   Box,
   Button,
@@ -39,7 +39,7 @@ export const DIFFICULTIES = {
 }
 
 function Achievements() {
-  const { t } = useTranslation('apps.achievements')
+  const { t } = useTranslation('apps.lifeforge--achievements')
 
   const { open } = useModalStore()
 
@@ -69,7 +69,7 @@ function Achievements() {
           <Button
             display={{ base: 'none', md: 'flex' }}
             icon="tabler:plus"
-            namespace="apps.achievements"
+            namespace="apps.lifeforge--achievements"
             tProps={{
               item: t('items.achievement')
             }}
@@ -104,7 +104,7 @@ function Achievements() {
                   icon="tabler:award-off"
                   message={{
                     id: 'achievements',
-                    namespace: 'apps.achievements'
+                    namespace: 'apps.lifeforge--achievements'
                   }}
                 />
               )

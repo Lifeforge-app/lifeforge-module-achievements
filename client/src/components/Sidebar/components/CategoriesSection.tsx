@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next'
 
-import { usePersonalization ,
+import {
   EmptyStateScreen,
   SidebarItem,
   SidebarTitle,
   WithQueryData,
-  useModalStore
+  useModalStore,
+  usePersonalization
 } from '@lifeforge/ui'
 
 import ModifyCategoriesModal from '@/components/modals/ModifyCategoriesModal'
@@ -15,7 +16,7 @@ import { forgeAPI } from '@/manifest'
 import CategoryItem from './CategoryItem'
 
 function CategoriesSection() {
-  const { t } = useTranslation('apps.achievements')
+  const { t } = useTranslation('apps.lifeforge--achievements')
 
   const { bgTempPalette } = usePersonalization()
 
@@ -42,7 +43,7 @@ function CategoriesSection() {
               icon="tabler:apps-off"
               message={{
                 id: 'categories',
-                namespace: 'apps.achievements'
+                namespace: 'apps.lifeforge--achievements'
               }}
             />
           ) : (

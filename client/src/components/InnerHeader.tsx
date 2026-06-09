@@ -16,7 +16,7 @@ import { forgeAPI } from '@/manifest'
 import useFilter from '../hooks/useFilter'
 
 function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
-  const { t } = useTranslation('apps.achievements')
+  const { t } = useTranslation('apps.lifeforge--achievements')
 
   const { setIsSidebarOpen } = useModuleSidebarState()
 
@@ -88,7 +88,7 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
       <SearchInput
         debounceMs={300}
         mt="lg"
-        namespace="apps.achievements"
+        namespace="apps.lifeforge--achievements"
         searchTarget="achievement"
         value={searchQuery}
         onChange={setSearchQuery}

@@ -70,7 +70,7 @@ function ModifyCategoriesModal({
       }}
       uiConfig={{
         icon: modifyType === 'create' ? 'tabler:plus' : 'tabler:pencil',
-        namespace: 'apps.achievements',
+        namespace: 'apps.lifeforge--achievements',
         title: `achievement.category.${modifyType}`,
         onClose
       }}

@@ -4,7 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { usePersonalization , Box, Flex, Icon, Text } from '@lifeforge/ui'
+import { Box, Flex, Icon, Text, usePersonalization } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
@@ -21,7 +21,7 @@ function AchievementMeta({
   thoughts: string
   created: string
 }) {
-  const { t } = useTranslation('apps.achievements')
+  const { t } = useTranslation('apps.lifeforge--achievements')
 
   const { language } = usePersonalization()
 

@@ -42,7 +42,7 @@ function ModifyAchievementModal({
   }
   onClose: () => void
 }) {
-  const { t } = useTranslation('apps.achievements')
+  const { t } = useTranslation('apps.lifeforge--achievements')
 
   const { filter } = useFilter()
 
@@ -102,7 +102,7 @@ function ModifyAchievementModal({
       uiConfig={{
         icon: modifyType === 'create' ? 'tabler:plus' : 'tabler:pencil',
         loading: categoriesQuery.isLoading,
-        namespace: 'apps.achievements',
+        namespace: 'apps.lifeforge--achievements',
         title: `achievement.${modifyType}`,
         onClose
       }}

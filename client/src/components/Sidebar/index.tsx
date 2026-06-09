@@ -8,7 +8,7 @@ import CategoriesSection from './components/CategoriesSection'
 import DifficultiesSection from './components/DifficultiesSection'
 
 function Sidebar() {
-  const { t } = useTranslation('apps.achievements')
+  const { t } = useTranslation('apps.lifeforge--achievements')
 
   const { updateFilter, filter } = useFilter()
 
