@@ -1,5 +1,4 @@
-import { useTranslation } from 'react-i18next'
-
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   EmptyStateScreen,
   SidebarItem,
@@ -16,7 +15,7 @@ import { forgeAPI } from '@/manifest'
 import CategoryItem from './CategoryItem'
 
 function CategoriesSection() {
-  const { t } = useTranslation('apps.lifeforge--achievements')
+  const { t } = useModuleTranslation()
 
   const { bgTempPalette } = usePersonalization()
 

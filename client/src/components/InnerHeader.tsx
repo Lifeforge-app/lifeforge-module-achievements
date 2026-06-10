@@ -1,7 +1,7 @@
 import { DIFFICULTIES } from '@'
 import { useQuery } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   Flex,
@@ -16,7 +16,7 @@ import { forgeAPI } from '@/manifest'
 import useFilter from '../hooks/useFilter'
 
 function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
-  const { t } = useTranslation('apps.lifeforge--achievements')
+  const { t } = useModuleTranslation()
 
   const { setIsSidebarOpen } = useModuleSidebarState()
 

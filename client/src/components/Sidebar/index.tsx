@@ -1,5 +1,4 @@
-import { useTranslation } from 'react-i18next'
-
+import { useModuleTranslation } from '@lifeforge/localization'
 import { SidebarDivider, SidebarItem, SidebarWrapper } from '@lifeforge/ui'
 
 import useFilter from '@/hooks/useFilter'
@@ -8,7 +7,7 @@ import CategoriesSection from './components/CategoriesSection'
 import DifficultiesSection from './components/DifficultiesSection'
 
 function Sidebar() {
-  const { t } = useTranslation('apps.lifeforge--achievements')
+  const { t } = useModuleTranslation()
 
   const { updateFilter, filter } = useFilter()
 

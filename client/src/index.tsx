@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
 
 import { type InferOutput } from '@lifeforge/api'
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Box,
   Button,
@@ -39,7 +39,7 @@ export const DIFFICULTIES = {
 }
 
 function Achievements() {
-  const { t } = useTranslation('apps.lifeforge--achievements')
+  const { t } = useModuleTranslation()
 
   const { open } = useModalStore()
 

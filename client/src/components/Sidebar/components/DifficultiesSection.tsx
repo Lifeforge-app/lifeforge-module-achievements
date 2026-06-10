@@ -1,7 +1,7 @@
 import { DIFFICULTIES } from '@'
 import { useQuery } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   SidebarItem,
   SidebarTitle,
@@ -13,7 +13,7 @@ import useFilter from '@/hooks/useFilter'
 import { forgeAPI } from '@/manifest'
 
 function DifficultiesSection() {
-  const { t } = useTranslation('apps.lifeforge--achievements')
+  const { t } = useModuleTranslation()
 
   const { bgTempPalette } = usePersonalization()
 

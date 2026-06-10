@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
 import z from 'zod'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   FormModal,
   ListboxField,
@@ -42,7 +42,7 @@ function ModifyAchievementModal({
   }
   onClose: () => void
 }) {
-  const { t } = useTranslation('apps.lifeforge--achievements')
+  const { t } = useModuleTranslation()
 
   const { filter } = useFilter()
 
