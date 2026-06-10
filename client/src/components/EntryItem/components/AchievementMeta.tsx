@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { Box, Flex, Icon, Text, usePersonalization } from '@lifeforge/ui'
 
@@ -21,7 +21,7 @@ function AchievementMeta({
   thoughts: string
   created: string
 }) {
-  const { t } = useTranslation('apps.lifeforge--achievements')
+  const { t } = useModuleTranslation()
 
   const { language } = usePersonalization()
 
