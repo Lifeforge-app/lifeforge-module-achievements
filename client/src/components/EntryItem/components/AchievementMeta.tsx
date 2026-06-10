@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useCallback } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import { Box, Flex, Icon, Text, usePersonalization } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
@@ -22,9 +22,7 @@ function AchievementMeta({
   created: string
 }) {
   const { t } = useModuleTranslation()
-
   const { language } = usePersonalization()
-
   const categoriesQuery = useQuery(forgeAPI.categories.list.queryOptions())
 
   const categories = categoriesQuery.data || []

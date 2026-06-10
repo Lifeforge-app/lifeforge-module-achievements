@@ -43,15 +43,12 @@ function ModifyAchievementModal({
   onClose: () => void
 }) {
   const { t } = useModuleTranslation()
-
   const { filter } = useFilter()
-
   const categoriesQuery = useQuery(forgeAPI.categories.list.queryOptions())
 
   const categories = categoriesQuery.data || []
 
   const queryClient = useQueryClient()
-
   const mutation = useMutation(
     (modifyType === 'create'
       ? forgeAPI.entries.create
@@ -66,7 +63,6 @@ function ModifyAchievementModal({
       }
     })
   )
-
   const form = useForm({
     defaultValues: {
       ...createDefaultValues(schema),

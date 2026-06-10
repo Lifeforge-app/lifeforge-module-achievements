@@ -14,11 +14,8 @@ import { forgeAPI } from '@/manifest'
 
 function DifficultiesSection() {
   const { t } = useModuleTranslation()
-
   const { bgTempPalette } = usePersonalization()
-
   const { updateFilter, filter } = useFilter()
-
   const difficultiesCountQuery = useQuery(
     forgeAPI.entries.difficultiesCount.queryOptions()
   )

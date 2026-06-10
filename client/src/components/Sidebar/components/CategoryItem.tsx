@@ -15,11 +15,8 @@ import { forgeAPI } from '@/manifest'
 
 function CategoryItem({ category }: { category: AchievementCategory }) {
   const { open } = useModalStore()
-
   const { updateFilter, filter } = useFilter()
-
   const queryClient = useQueryClient()
-
   const deleteMutation = useMutation(
     forgeAPI.categories.remove.input({ id: category.id }).mutationOptions({
       onSuccess: () => {

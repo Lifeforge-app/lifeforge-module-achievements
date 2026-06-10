@@ -15,9 +15,7 @@ import ModifyAchievementModal from '../../modals/ModifyAchievementModal'
 
 function ActionMenu({ entry }: { entry: Achievement }) {
   const { open } = useModalStore()
-
   const queryClient = useQueryClient()
-
   const deleteMutation = useMutation(
     forgeAPI.entries.remove
       .input({
@@ -31,7 +29,6 @@ function ActionMenu({ entry }: { entry: Achievement }) {
         }
       })
   )
-
   const handleDeleteEntry = useCallback(() => {
     open(ConfirmationModal, {
       title: 'Delete Achievement',
@@ -42,7 +39,6 @@ function ActionMenu({ entry }: { entry: Achievement }) {
       }
     })
   }, [entry])
-
   const handleUpdateEntry = useCallback(() => {
     open(ModifyAchievementModal, {
       modifyType: 'update',

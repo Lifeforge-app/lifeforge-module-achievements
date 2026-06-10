@@ -8,7 +8,6 @@ import DifficultiesSection from './components/DifficultiesSection'
 
 function Sidebar() {
   const { t } = useModuleTranslation()
-
   const { updateFilter, filter } = useFilter()
 
   return (

@@ -16,11 +16,8 @@ import CategoryItem from './CategoryItem'
 
 function CategoriesSection() {
   const { t } = useModuleTranslation()
-
   const { bgTempPalette } = usePersonalization()
-
   const { updateFilter, filter } = useFilter()
-
   const { open } = useModalStore()
 
   return (

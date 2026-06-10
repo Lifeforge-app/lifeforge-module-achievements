@@ -36,7 +36,6 @@ function ModifyCategoriesModal({
   }
 }) {
   const queryClient = useQueryClient()
-
   const mutation = useMutation(
     (modifyType === 'create'
       ? forgeAPI.categories.create
@@ -51,7 +50,6 @@ function ModifyCategoriesModal({
       }
     })
   )
-
   const form = useForm({
     defaultValues: {
       ...createDefaultValues(schema),

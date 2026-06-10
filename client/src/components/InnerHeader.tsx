@@ -17,11 +17,8 @@ import useFilter from '../hooks/useFilter'
 
 function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
   const { t } = useModuleTranslation()
-
   const { setIsSidebarOpen } = useModuleSidebarState()
-
   const categoriesQuery = useQuery(forgeAPI.categories.list.queryOptions())
-
   const { filter, updateFilter, searchQuery, setSearchQuery } = useFilter()
 
   return (

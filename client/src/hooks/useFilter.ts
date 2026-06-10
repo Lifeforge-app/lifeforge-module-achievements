@@ -12,7 +12,6 @@ export default function useFilter() {
     'q',
     parseAsString.withDefault('')
   )
-
   const [filter, setFilter] = useQueryStates({
     difficulty: parseAsStringEnum(Object.keys(DIFFICULTIES)).withDefault(''),
     favourite: parseAsBoolean.withDefault(false),
