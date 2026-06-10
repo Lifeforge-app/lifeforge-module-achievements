@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useCallback } from 'react'
 
 import {
   ConfirmationModal,
@@ -16,6 +15,7 @@ import ModifyAchievementModal from '../../modals/ModifyAchievementModal'
 function ActionMenu({ entry }: { entry: Achievement }) {
   const { open } = useModalStore()
   const queryClient = useQueryClient()
+
   const deleteMutation = useMutation(
     forgeAPI.entries.remove
       .input({
@@ -29,22 +29,6 @@ function ActionMenu({ entry }: { entry: Achievement }) {
         }
       })
   )
-  const handleDeleteEntry = useCallback(() => {
-    open(ConfirmationModal, {
-      title: 'Delete Achievement',
-      description: 'Are you sure you want to delete this achievement?',
-      confirmationButton: 'delete',
-      onConfirm: async () => {
-        await deleteMutation.mutateAsync(undefined)
-      }
-    })
-  }, [entry])
-  const handleUpdateEntry = useCallback(() => {
-    open(ModifyAchievementModal, {
-      modifyType: 'update',
-      initialData: entry
-    })
-  }, [entry])
 
   return (
     <ContextMenu
@@ -59,13 +43,27 @@ function ActionMenu({ entry }: { entry: Achievement }) {
       <ContextMenuItem
         icon="tabler:pencil"
         label="Edit"
-        onClick={handleUpdateEntry}
+        onClick={() =>
+          open(ModifyAchievementModal, {
+            modifyType: 'update',
+            initialData: entry
+          })
+        }
       />
       <ContextMenuItem
         dangerous
         icon="tabler:trash"
         label="Delete"
-        onClick={handleDeleteEntry}
+        onClick={() =>
+          open(ConfirmationModal, {
+            title: 'Delete Achievement',
+            description: 'Are you sure you want to delete this achievement?',
+            confirmationButton: 'delete',
+            onConfirm: async () => {
+              await deleteMutation.mutateAsync(undefined)
+            }
+          })
+        }
       />
     </ContextMenu>
   )

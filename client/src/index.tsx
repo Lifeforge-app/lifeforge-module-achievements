@@ -42,7 +42,8 @@ function Achievements() {
   const { t } = useModuleTranslation()
   const { open } = useModalStore()
   const { filter, searchQuery } = useFilter()
-  const entriesQuery = useQuery(
+  
+const entriesQuery = useQuery(
     forgeAPI.entries.list
       .input({
         difficulty:

@@ -16,7 +16,8 @@ function DifficultiesSection() {
   const { t } = useModuleTranslation()
   const { bgTempPalette } = usePersonalization()
   const { updateFilter, filter } = useFilter()
-  const difficultiesCountQuery = useQuery(
+  
+const difficultiesCountQuery = useQuery(
     forgeAPI.entries.difficultiesCount.queryOptions()
   )
 

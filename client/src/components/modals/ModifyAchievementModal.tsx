@@ -45,10 +45,8 @@ function ModifyAchievementModal({
   const { t } = useModuleTranslation()
   const { filter } = useFilter()
   const categoriesQuery = useQuery(forgeAPI.categories.list.queryOptions())
-
-  const categories = categoriesQuery.data || []
-
   const queryClient = useQueryClient()
+
   const mutation = useMutation(
     (modifyType === 'create'
       ? forgeAPI.entries.create
@@ -63,6 +61,7 @@ function ModifyAchievementModal({
       }
     })
   )
+
   const form = useForm({
     defaultValues: {
       ...createDefaultValues(schema),
@@ -81,7 +80,7 @@ function ModifyAchievementModal({
     color: TAILWIND_PALETTE[color as keyof typeof TAILWIND_PALETTE][500]
   }))
 
-  const categoryOptions = categories.map(category => ({
+  const categoryOptions = (categoriesQuery.data || []).map(category => ({
     text: category.name,
     color: category.color,
     icon: category.icon,

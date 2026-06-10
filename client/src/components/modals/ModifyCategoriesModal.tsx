@@ -36,7 +36,8 @@ function ModifyCategoriesModal({
   }
 }) {
   const queryClient = useQueryClient()
-  const mutation = useMutation(
+  
+const mutation = useMutation(
     (modifyType === 'create'
       ? forgeAPI.categories.create
       : forgeAPI.categories.update.input({
