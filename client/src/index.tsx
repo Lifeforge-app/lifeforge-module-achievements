@@ -42,8 +42,8 @@ function Achievements() {
   const { t } = useModuleTranslation()
   const { open } = useModalStore()
   const { filter, searchQuery } = useFilter()
-  
-const entriesQuery = useQuery(
+
+  const entriesQuery = useQuery(
     forgeAPI.entries.list
       .input({
         difficulty:
@@ -67,7 +67,6 @@ const entriesQuery = useQuery(
           <Button
             display={{ base: 'none', md: 'flex' }}
             icon="tabler:plus"
-            namespace="apps.lifeforge--achievements"
             tProps={{
               item: t('items.achievement')
             }}
@@ -101,8 +100,7 @@ const entriesQuery = useQuery(
                 <EmptyStateScreen
                   icon="tabler:award-off"
                   message={{
-                    id: 'achievements',
-                    namespace: 'apps.lifeforge--achievements'
+                    id: 'achievements'
                   }}
                 />
               )

@@ -85,7 +85,6 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
       <SearchInput
         debounceMs={300}
         mt="lg"
-        namespace="apps.lifeforge--achievements"
         searchTarget="achievement"
         value={searchQuery}
         onChange={setSearchQuery}

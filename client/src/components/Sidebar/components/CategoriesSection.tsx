@@ -38,8 +38,7 @@ function CategoriesSection() {
               smaller
               icon="tabler:apps-off"
               message={{
-                id: 'categories',
-                namespace: 'apps.lifeforge--achievements'
+                id: 'categories'
               }}
             />
           ) : (
