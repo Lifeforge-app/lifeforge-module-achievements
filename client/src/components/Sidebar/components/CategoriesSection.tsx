@@ -1,4 +1,3 @@
-import { useModuleTranslation } from '@lifeforge/localization'
 import {
   EmptyStateScreen,
   SidebarItem,
@@ -15,7 +14,6 @@ import { forgeAPI } from '@/manifest'
 import CategoryItem from './CategoryItem'
 
 function CategoriesSection() {
-  const { t } = useModuleTranslation()
   const { bgTempPalette } = usePersonalization()
   const { updateFilter, filter } = useFilter()
   const { open } = useModalStore()
@@ -29,7 +27,7 @@ function CategoriesSection() {
             open(ModifyCategoriesModal, { modifyType: 'create' })
           }
         }}
-        label={t('sidebar.categories')}
+        label="sidebar.categories"
       />
       <WithQueryData controller={forgeAPI.categories.list}>
         {data =>
@@ -46,7 +44,7 @@ function CategoriesSection() {
               <SidebarItem
                 active={!filter.category}
                 icon="tabler:category"
-                label={t('sidebar.allCategories')}
+                label="sidebar.allCategories"
                 sideStripColor={bgTempPalette[500]}
                 onClick={() => {
                   updateFilter('category', null)
