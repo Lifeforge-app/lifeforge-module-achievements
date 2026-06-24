@@ -84,7 +84,7 @@ function InnerHeader({ totalItemsCount }: { totalItemsCount: number }) {
       />
       <SearchInput
         debounceMs={300}
-        mt="lg"
+        mt="md"
         searchTarget="achievement"
         value={searchQuery}
         onChange={setSearchQuery}

@@ -16,6 +16,7 @@ function Sidebar() {
         active={!filter.category && !filter.difficulty}
         icon="tabler:award"
         label={t('headers.all')}
+        namespace={false}
         onClick={() => {
           updateFilter('category', null)
           updateFilter('difficulty', null)
@@ -24,7 +25,7 @@ function Sidebar() {
       <SidebarItem
         active={false}
         icon="tabler:star"
-        label={t('sidebar.starredAchievements')}
+        label="Starred Achievements"
         onClick={() => {}}
       />
       <SidebarDivider />

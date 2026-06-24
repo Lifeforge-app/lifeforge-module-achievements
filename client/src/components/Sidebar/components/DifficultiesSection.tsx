@@ -23,11 +23,11 @@ function DifficultiesSection() {
 
   return (
     <>
-      <SidebarTitle label={t('sidebar.difficulties')} />
+      <SidebarTitle label="difficulties" />
       <SidebarItem
         active={!filter.difficulty}
         icon="tabler:circle-dot-filled"
-        label={t('sidebar.allDifficulties')}
+        label="All Difficulties"
         sideStripColor={bgTempPalette[500]}
         onClick={() => {
           updateFilter('difficulty', null)
@@ -42,6 +42,7 @@ function DifficultiesSection() {
                 active={filter.difficulty === difficulty}
                 icon="tabler:circle-dot"
                 label={t(`difficulties.${difficulty}`)}
+                namespace={false}
                 number={difficultiesCount[difficulty] || 0}
                 sideStripColor={color}
                 onCancelButtonClick={() => {
