@@ -1,8 +1,9 @@
 import type { AchievementCategory } from '@'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
+
+import { useForgeMutation } from '@lifeforge/api'
 
 import {
   ColorField,
@@ -35,21 +36,14 @@ function ModifyCategoriesModal({
     initialData?: AchievementCategory
   }
 }) {
-  const queryClient = useQueryClient()
+  const createMutation = useForgeMutation(
+    forgeAPI.categories.create,
+    { action: 'create', queryKey: forgeAPI.categories.key }
+  )
 
-  const mutation = useMutation(
-    (modifyType === 'create'
-      ? forgeAPI.categories.create
-      : forgeAPI.categories.update.input({
-          id: initialData?.id || ''
-        })
-    ).mutationOptions({
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['achievements', 'categories']
-        })
-      }
-    })
+  const updateMutation = useForgeMutation(
+    forgeAPI.categories.update.input({ id: initialData?.id || '' }),
+    { action: 'update', queryKey: forgeAPI.categories.key }
   )
   const form = useForm({
     defaultValues: {
@@ -64,7 +58,9 @@ function ModifyCategoriesModal({
     <FormModal
       form={form}
       submissionConfig={{
-        handler: mutation.mutateAsync,
+        handler: data => {
+          (modifyType === 'create' ? createMutation : updateMutation).mutateAsync(data)
+        },
         template: modifyType
       }}
       uiConfig={{

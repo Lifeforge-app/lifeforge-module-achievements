@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
+
+import { useForgeMutation } from '@lifeforge/api'
 
 import { useModuleTranslation } from '@lifeforge/localization'
 import {
@@ -45,21 +47,15 @@ function ModifyAchievementModal({
   const { t } = useModuleTranslation()
   const { filter } = useFilter()
   const categoriesQuery = useQuery(forgeAPI.categories.list.queryOptions())
-  const queryClient = useQueryClient()
 
-  const mutation = useMutation(
-    (modifyType === 'create'
-      ? forgeAPI.entries.create
-      : forgeAPI.entries.update.input({
-          id: initialData?.id || ''
-        })
-    ).mutationOptions({
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['achievements']
-        })
-      }
-    })
+  const createMutation = useForgeMutation(
+    forgeAPI.entries.create,
+    { action: 'create', queryKey: forgeAPI.key }
+  )
+
+  const updateMutation = useForgeMutation(
+    forgeAPI.entries.update.input({ id: initialData?.id || '' }),
+    { action: 'update', queryKey: forgeAPI.key }
   )
 
   const form = useForm({
@@ -91,7 +87,9 @@ function ModifyAchievementModal({
     <FormModal
       form={form}
       submissionConfig={{
-        handler: mutation.mutateAsync,
+        handler: data => {
+          (modifyType === 'create' ? createMutation : updateMutation).mutateAsync(data)
+        },
         template: modifyType
       }}
       uiConfig={{

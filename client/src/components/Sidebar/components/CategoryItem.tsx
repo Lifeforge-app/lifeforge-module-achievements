@@ -1,11 +1,10 @@
 import type { AchievementCategory } from '@'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import { useForgeMutation } from '@lifeforge/api'
 import {
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
-  toast,
   useModalStore
 } from '@lifeforge/ui'
 
@@ -16,19 +15,10 @@ import { forgeAPI } from '@/manifest'
 function CategoryItem({ category }: { category: AchievementCategory }) {
   const { open } = useModalStore()
   const { updateFilter, filter } = useFilter()
-  const queryClient = useQueryClient()
 
-  const deleteMutation = useMutation(
-    forgeAPI.categories.remove.input({ id: category.id }).mutationOptions({
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['achievements', 'categories']
-        })
-      },
-      onError: () => {
-        toast.error('Failed to delete category. Please try again.')
-      }
-    })
+  const deleteMutation = useForgeMutation(
+    forgeAPI.categories.remove.input({ id: category.id }),
+    { action: 'delete', queryKey: forgeAPI.categories.key }
   )
 
   return (

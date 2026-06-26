@@ -1,5 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-
+import { useForgeMutation } from '@lifeforge/api'
 import {
   ConfirmationModal,
   ContextMenu,
@@ -14,20 +13,10 @@ import ModifyAchievementModal from '../../modals/ModifyAchievementModal'
 
 function ActionMenu({ entry }: { entry: Achievement }) {
   const { open } = useModalStore()
-  const queryClient = useQueryClient()
 
-  const deleteMutation = useMutation(
-    forgeAPI.entries.remove
-      .input({
-        id: entry.id
-      })
-      .mutationOptions({
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['achievements']
-          })
-        }
-      })
+  const deleteMutation = useForgeMutation(
+    forgeAPI.entries.remove.input({ id: entry.id }),
+    { action: 'delete', queryKey: forgeAPI.key }
   )
 
   return (
