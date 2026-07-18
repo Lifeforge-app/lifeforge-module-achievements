@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { useForgeMutation } from '@lifeforge/api'
-
 import {
   ColorField,
   FormModal,
@@ -36,10 +35,10 @@ function ModifyCategoriesModal({
     initialData?: AchievementCategory
   }
 }) {
-  const createMutation = useForgeMutation(
-    forgeAPI.categories.create,
-    { action: 'create', queryKey: forgeAPI.categories.key }
-  )
+  const createMutation = useForgeMutation(forgeAPI.categories.create, {
+    action: 'create',
+    queryKey: forgeAPI.categories.key
+  })
 
   const updateMutation = useForgeMutation(
     forgeAPI.categories.update.input({ id: initialData?.id || '' }),
@@ -59,7 +58,10 @@ function ModifyCategoriesModal({
       form={form}
       submissionConfig={{
         handler: data => {
-          (modifyType === 'create' ? createMutation : updateMutation).mutateAsync(data)
+          ;(modifyType === 'create'
+            ? createMutation
+            : updateMutation
+          ).mutateAsync(data)
         },
         template: modifyType
       }}

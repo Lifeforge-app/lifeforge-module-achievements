@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { useForgeMutation } from '@lifeforge/api'
-
 import { useModuleTranslation } from '@lifeforge/localization'
 import {
   FormModal,
@@ -48,10 +47,10 @@ function ModifyAchievementModal({
   const { filter } = useFilter()
   const categoriesQuery = useQuery(forgeAPI.categories.list.queryOptions())
 
-  const createMutation = useForgeMutation(
-    forgeAPI.entries.create,
-    { action: 'create', queryKey: forgeAPI.key }
-  )
+  const createMutation = useForgeMutation(forgeAPI.entries.create, {
+    action: 'create',
+    queryKey: forgeAPI.key
+  })
 
   const updateMutation = useForgeMutation(
     forgeAPI.entries.update.input({ id: initialData?.id || '' }),
@@ -88,7 +87,10 @@ function ModifyAchievementModal({
       form={form}
       submissionConfig={{
         handler: data => {
-          (modifyType === 'create' ? createMutation : updateMutation).mutateAsync(data)
+          ;(modifyType === 'create'
+            ? createMutation
+            : updateMutation
+          ).mutateAsync(data)
         },
         template: modifyType
       }}
