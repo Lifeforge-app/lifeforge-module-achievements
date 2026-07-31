@@ -20,15 +20,7 @@ function ActionMenu({ entry }: { entry: Achievement }) {
   )
 
   return (
-    <ContextMenu
-      styles={{
-        wrapper: {
-          position: 'absolute',
-          top: '1em',
-          right: '1em'
-        }
-      }}
-    >
+    <ContextMenu position="absolute" right="1em" top="1em">
       <ContextMenuItem
         icon="tabler:pencil"
         label="Edit"
