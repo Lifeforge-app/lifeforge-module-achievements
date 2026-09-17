@@ -13,7 +13,8 @@ export const contract = {
           "type": "object",
           "properties": {
             "title": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             },
             "thoughts": {
               "type": "string"
@@ -28,7 +29,14 @@ export const contract = {
               ]
             },
             "category": {
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           },
           "required": [
@@ -40,57 +48,8 @@ export const contract = {
         }
       },
       "output": {
-        "CREATED": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "string"
-            },
-            "thoughts": {
-              "type": "string"
-            },
-            "difficulty": {
-              "type": "string",
-              "enum": [
-                "easy",
-                "medium",
-                "hard",
-                "impossible"
-              ]
-            },
-            "category": {
-              "type": "string"
-            },
-            "created": {
-              "type": "string"
-            },
-            "updated": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "title",
-            "thoughts",
-            "difficulty",
-            "category",
-            "created",
-            "updated",
-            "id",
-            "collectionId",
-            "collectionName"
-          ],
-          "additionalProperties": false
-        }
+        "NO_CONTENT": true,
+        "NOT_FOUND": true
       }
     },
     "difficultiesCount": {
@@ -156,8 +115,14 @@ export const contract = {
           "items": {
             "type": "object",
             "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+              },
               "title": {
-                "type": "string"
+                "type": "string",
+                "maxLength": 255
               },
               "thoughts": {
                 "type": "string"
@@ -171,35 +136,30 @@ export const contract = {
                   "impossible"
                 ]
               },
-              "category": {
-                "type": "string"
-              },
               "created": {
                 "type": "string"
               },
               "updated": {
                 "type": "string"
               },
-              "id": {
-                "type": "string"
-              },
-              "collectionId": {
-                "type": "string"
-              },
-              "collectionName": {
-                "type": "string"
+              "category": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               }
             },
             "required": [
+              "id",
               "title",
               "thoughts",
               "difficulty",
-              "category",
               "created",
-              "updated",
-              "id",
-              "collectionId",
-              "collectionName"
+              "updated"
             ],
             "additionalProperties": false
           }
@@ -260,7 +220,8 @@ export const contract = {
           "type": "object",
           "properties": {
             "title": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             },
             "thoughts": {
               "type": "string"
@@ -275,7 +236,14 @@ export const contract = {
               ]
             },
             "category": {
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           },
           "required": [
@@ -287,57 +255,7 @@ export const contract = {
         }
       },
       "output": {
-        "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "string"
-            },
-            "thoughts": {
-              "type": "string"
-            },
-            "difficulty": {
-              "type": "string",
-              "enum": [
-                "easy",
-                "medium",
-                "hard",
-                "impossible"
-              ]
-            },
-            "category": {
-              "type": "string"
-            },
-            "created": {
-              "type": "string"
-            },
-            "updated": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "title",
-            "thoughts",
-            "difficulty",
-            "category",
-            "created",
-            "updated",
-            "id",
-            "collectionId",
-            "collectionName"
-          ],
-          "additionalProperties": false
-        },
+        "NO_CONTENT": true,
         "NOT_FOUND": true
       }
     }
@@ -356,13 +274,16 @@ export const contract = {
           "type": "object",
           "properties": {
             "name": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             },
             "icon": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             },
             "color": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             }
           },
           "required": [
@@ -374,39 +295,7 @@ export const contract = {
         }
       },
       "output": {
-        "CREATED": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "color": {
-              "type": "string"
-            },
-            "icon": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "color",
-            "icon",
-            "id",
-            "collectionId",
-            "collectionName"
-          ],
-          "additionalProperties": false
-        },
+        "NO_CONTENT": true,
         "CONFLICT": true
       }
     },
@@ -425,36 +314,33 @@ export const contract = {
           "items": {
             "type": "object",
             "properties": {
-              "name": {
-                "type": "string"
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
               },
-              "icon": {
-                "type": "string"
+              "name": {
+                "type": "string",
+                "maxLength": 255
               },
               "color": {
-                "type": "string"
+                "type": "string",
+                "maxLength": 255
+              },
+              "icon": {
+                "type": "string",
+                "maxLength": 255
               },
               "amount": {
                 "type": "number"
-              },
-              "id": {
-                "type": "string"
-              },
-              "collectionId": {
-                "type": "string"
-              },
-              "collectionName": {
-                "type": "string"
               }
             },
             "required": [
-              "name",
-              "icon",
-              "color",
-              "amount",
               "id",
-              "collectionId",
-              "collectionName"
+              "name",
+              "color",
+              "icon",
+              "amount"
             ],
             "additionalProperties": false
           }
@@ -484,10 +370,7 @@ export const contract = {
         }
       },
       "output": {
-        "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "boolean"
-        },
+        "NO_CONTENT": true,
         "NOT_FOUND": true
       }
     },
@@ -504,7 +387,9 @@ export const contract = {
           "type": "object",
           "properties": {
             "id": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
             }
           },
           "required": [
@@ -517,13 +402,16 @@ export const contract = {
           "type": "object",
           "properties": {
             "name": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             },
             "icon": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             },
             "color": {
-              "type": "string"
+              "type": "string",
+              "maxLength": 255
             }
           },
           "required": [
@@ -535,39 +423,7 @@ export const contract = {
         }
       },
       "output": {
-        "OK": {
-          "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "color": {
-              "type": "string"
-            },
-            "icon": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            },
-            "collectionId": {
-              "type": "string"
-            },
-            "collectionName": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "name",
-            "color",
-            "icon",
-            "id",
-            "collectionId",
-            "collectionName"
-          ],
-          "additionalProperties": false
-        },
+        "NO_CONTENT": true,
         "CONFLICT": true,
         "NOT_FOUND": true
       }

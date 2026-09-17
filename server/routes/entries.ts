@@ -1,7 +1,31 @@
+import { eq, sql, type TableFilter } from 'drizzle-orm'
+import { createInsertSchema, createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
 import forge from '../forge'
-import achievementsSchemas from '../schema'
+import { achievementsEntries } from '../schema.drizzle'
+
+const entryDifficultyDto =
+  createSelectSchema(achievementsEntries).shape.difficulty
+
+const entryDto = createSelectSchema(achievementsEntries)
+  .omit({ categoryId: true })
+  .extend({
+    difficulty: entryDifficultyDto,
+    category: z.string().optional().nullable(),
+    created: z.string(),
+    updated: z.string()
+  })
+
+const entryInputDto = createInsertSchema(achievementsEntries)
+  .pick({
+    title: true,
+    thoughts: true,
+    difficulty: true
+  })
+  .extend({
+    category: z.string().optional().nullable()
+  })
 
 export const list = forge
   .query({
@@ -9,66 +33,61 @@ export const list = forge
       'Get the list of achievement entries with optional filtering by difficulty, category, or search query',
     input: {
       query: z.object({
-        difficulty: achievementsSchemas.entries.shape.difficulty
-          .optional()
-          .nullable(),
+        difficulty: entryDifficultyDto.optional().nullable(),
         category: z.string().optional(),
         query: z.string().optional()
       })
     },
-    existenceCheck: {
-      query: {
-        category: '[categories]'
-      }
-    },
     output: {
-      OK: z.array(achievementsSchemas.entries),
+      OK: z.array(entryDto),
       NOT_FOUND: true
     }
   })
-  .callback(async function ({
-    pb,
-    query: { difficulty, category, query },
-    response
-  }) {
-    const result = await pb.getFullList
-      .collection('entries')
-      .filter([
-        difficulty && {
-          field: 'difficulty',
-          operator: '=',
-          value: difficulty
-        },
-        category
-          ? {
-              field: 'category',
-              operator: '=',
-              value: category
-            }
-          : undefined,
-        query
-          ? {
-              combination: '||',
-              filters: [
-                {
-                  field: 'title',
-                  operator: '~',
-                  value: query
-                },
-                {
-                  field: 'thoughts',
-                  operator: '~',
-                  value: query
-                }
-              ]
-            }
-          : undefined
-      ])
-      .sort(['-created'])
-      .execute()
+  .callback(
+    async ({ query: { difficulty, category, query }, response, db }) => {
+      if (category) {
+        const exists = await db.query.achievementsCategories.findFirst({
+          where: { id: category }
+        })
 
-    return response.ok(result)
-  })
+        if (!exists) {
+          return response.notFound()
+        }
+      }
+
+      const filters: TableFilter<typeof achievementsEntries>[] = [
+        ...(difficulty ? [{ difficulty }] : []),
+        ...(category ? [{ categoryId: category }] : []),
+        ...(query
+          ? [
+              {
+                OR: [
+                  { title: { ilike: `%${query}%` } },
+                  { thoughts: { ilike: `%${query}%` } }
+                ]
+              }
+            ]
+          : [])
+      ]
+
+      const result = await db.query.achievementsEntries.findMany({
+        where: filters.length > 0 ? { AND: filters } : undefined,
+        orderBy: { created: 'desc' }
+      })
+
+      return response.ok(
+        result.map(entry => ({
+          id: entry.id,
+          title: entry.title,
+          thoughts: entry.thoughts,
+          difficulty: entry.difficulty,
+          category: entry.categoryId ?? null,
+          created: entry.created.toISOString(),
+          updated: entry.updated.toISOString()
+        }))
+      )
+    }
+  )
 
 export const difficultiesCount = forge
   .query({
@@ -77,40 +96,61 @@ export const difficultiesCount = forge
       OK: z.record(z.string(), z.number())
     }
   })
-  .callback(async function ({ pb, response }) {
-    const listItems = await pb.getFullList
-      .collection('difficulties_aggregated')
-      .execute()
+  .callback(async ({ response, db }) => {
+    const listItems = await db
+      .select({
+        difficulty: achievementsEntries.difficulty,
+        count: sql<number>`CAST(COUNT(*) AS INTEGER)`.mapWith(Number)
+      })
+      .from(achievementsEntries)
+      .groupBy(achievementsEntries.difficulty)
 
-    const result = Object.fromEntries(
-      listItems.map(item => [item.difficulty, item.count])
-    ) as Record<string, number>
+    const counts: Record<string, number> = {
+      easy: 0,
+      medium: 0,
+      hard: 0,
+      impossible: 0
+    }
 
-    return response.ok(result)
+    for (const item of listItems) {
+      if (item.difficulty in counts) {
+        counts[item.difficulty] = item.count
+      }
+    }
+
+    return response.ok(counts)
   })
 
 export const create = forge
   .mutation({
     description: 'Create a new achievements entry',
     input: {
-      body: achievementsSchemas.entries
-        .pick({
-          title: true,
-          thoughts: true,
-          difficulty: true
-        })
-        .extend({
-          category: z.string().optional()
-        })
+      body: entryInputDto
     },
     output: {
-      CREATED: achievementsSchemas.entries
+      NO_CONTENT: true,
+      NOT_FOUND: true
     }
   })
-  .callback(async function ({ pb, body, response }) {
-    const result = await pb.create.collection('entries').data(body).execute()
+  .callback(async ({ db, body, response }) => {
+    if (body.category) {
+      const exists = await db.query.achievementsCategories.findFirst({
+        where: { id: body.category }
+      })
 
-    return response.created(result)
+      if (!exists) {
+        return response.notFound()
+      }
+    }
+
+    await db.insert(achievementsEntries).values({
+      title: body.title,
+      thoughts: body.thoughts ?? '',
+      difficulty: body.difficulty,
+      categoryId: body.category || null
+    })
+
+    return response.noContent()
   })
 
 export const update = forge
@@ -120,34 +160,41 @@ export const update = forge
       query: z.object({
         id: z.string()
       }),
-      body: achievementsSchemas.entries
-        .pick({
-          title: true,
-          thoughts: true,
-          difficulty: true
-        })
-        .extend({
-          category: z.string().optional()
-        })
-    },
-    existenceCheck: {
-      query: {
-        id: 'entries'
-      }
+      body: entryInputDto
     },
     output: {
-      OK: achievementsSchemas.entries,
+      NO_CONTENT: true,
       NOT_FOUND: true
     }
   })
-  .callback(async function ({ pb, query: { id }, body, response }) {
-    const result = await pb.update
-      .collection('entries')
-      .id(id)
-      .data(body)
-      .execute()
+  .callback(async ({ db, query: { id }, body, response }) => {
+    if (body.category) {
+      const exists = await db.query.achievementsCategories.findFirst({
+        where: { id: body.category }
+      })
 
-    return response.ok(result)
+      if (!exists) {
+        return response.notFound()
+      }
+    }
+
+    const [updated] = await db
+      .update(achievementsEntries)
+      .set({
+        title: body.title,
+        thoughts: body.thoughts ?? '',
+        difficulty: body.difficulty,
+        categoryId: body.category || null,
+        updated: new Date()
+      })
+      .where(eq(achievementsEntries.id, id))
+      .returning()
+
+    if (!updated) {
+      return response.notFound()
+    }
+
+    return response.noContent()
   })
 
 export const remove = forge
@@ -158,18 +205,20 @@ export const remove = forge
         id: z.string()
       })
     },
-    existenceCheck: {
-      query: {
-        id: 'entries'
-      }
-    },
     output: {
       NO_CONTENT: true,
       NOT_FOUND: true
     }
   })
-  .callback(async function ({ pb, query: { id }, response }) {
-    await pb.delete.collection('entries').id(id).execute()
+  .callback(async ({ db, query: { id }, response }) => {
+    const [deleted] = await db
+      .delete(achievementsEntries)
+      .where(eq(achievementsEntries.id, id))
+      .returning()
+
+    if (!deleted) {
+      return response.notFound()
+    }
 
     return response.noContent()
   })

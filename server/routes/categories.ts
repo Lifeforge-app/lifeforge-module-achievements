@@ -1,21 +1,45 @@
+import { eq, sql } from 'drizzle-orm'
+import { createInsertSchema, createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
-import { schemaWithPB } from '@lifeforge/pocketbase'
-
 import forge from '../forge'
-import achievementsSchemas from '../schema'
+import { achievementsCategories, achievementsEntries } from '../schema.drizzle'
+
+const categoryInputDto = createInsertSchema(achievementsCategories).pick({
+  name: true,
+  icon: true,
+  color: true
+})
 
 export const list = forge
   .query({
     description: 'Get the list of achievement categories',
     output: {
-      OK: z.array(achievementsSchemas.categories_aggregated)
+      OK: z.array(
+        createSelectSchema(achievementsCategories).extend({
+          amount: z.number()
+        })
+      )
     }
   })
-  .callback(async function ({ pb, response }) {
-    const result = await pb.getFullList
-      .collection('categories_aggregated')
-      .execute()
+  .callback(async ({ response, db }) => {
+    const result = await db
+      .select({
+        id: achievementsCategories.id,
+        name: achievementsCategories.name,
+        icon: achievementsCategories.icon,
+        color: achievementsCategories.color,
+        amount:
+          sql<number>`CAST(COUNT(${achievementsEntries.id}) AS INTEGER)`.mapWith(
+            Number
+          )
+      })
+      .from(achievementsCategories)
+      .leftJoin(
+        achievementsEntries,
+        eq(achievementsCategories.id, achievementsEntries.categoryId)
+      )
+      .groupBy(achievementsCategories.id)
 
     return response.ok(result)
   })
@@ -24,33 +48,25 @@ export const create = forge
   .mutation({
     description: 'Create a new achievement category',
     input: {
-      body: achievementsSchemas.categories.pick({
-        name: true,
-        icon: true,
-        color: true
-      })
+      body: categoryInputDto
     },
     output: {
-      CREATED: achievementsSchemas.categories,
+      NO_CONTENT: true,
       CONFLICT: true
     }
   })
-  .callback(async function ({ pb, body, response }) {
-    let existingCategory = null
-
-    existingCategory = await pb.getFirstListItem
-      .collection('categories')
-      .filter([{ field: 'name', operator: '=', value: body.name }])
-      .execute()
-      .catch(() => {})
+  .callback(async ({ db, body, response }) => {
+    const existingCategory = await db.query.achievementsCategories.findFirst({
+      where: { name: body.name }
+    })
 
     if (existingCategory) {
       return response.conflict()
     }
 
-    const result = await pb.create.collection('categories').data(body).execute()
+    await db.insert(achievementsCategories).values(body)
 
-    return response.created(result)
+    return response.noContent()
   })
 
 export const update = forge
@@ -58,48 +74,39 @@ export const update = forge
     description: 'Update an existing achievement category',
     input: {
       query: z.object({
-        id: z.string()
+        id: z.uuid()
       }),
-      body: achievementsSchemas.categories.pick({
-        name: true,
-        icon: true,
-        color: true
-      })
-    },
-    existenceCheck: {
-      query: {
-        id: 'categories'
-      }
+      body: categoryInputDto
     },
     output: {
-      OK: schemaWithPB(achievementsSchemas.categories),
+      NO_CONTENT: true,
       CONFLICT: true,
       NOT_FOUND: true
     }
   })
-  .callback(async function ({ pb, query: { id }, body, response }) {
-    let existingCategory = null
-
-    existingCategory = await pb.getFirstListItem
-      .collection('categories')
-      .filter([
-        { field: 'name', operator: '=', value: body.name },
-        { field: 'id', operator: '!=', value: id }
-      ])
-      .execute()
-      .catch(() => {})
+  .callback(async ({ db, query: { id }, body, response }) => {
+    const existingCategory = await db.query.achievementsCategories.findFirst({
+      where: {
+        name: body.name,
+        id: { ne: id }
+      }
+    })
 
     if (existingCategory) {
       return response.conflict()
     }
 
-    const result = await pb.update
-      .collection('categories')
-      .id(id)
-      .data(body)
-      .execute()
+    const [category] = await db
+      .update(achievementsCategories)
+      .set(body)
+      .where(eq(achievementsCategories.id, id))
+      .returning()
 
-    return response.ok(result)
+    if (!category) {
+      return response.notFound()
+    }
+
+    return response.noContent()
   })
 
 export const remove = forge
@@ -110,18 +117,20 @@ export const remove = forge
         id: z.string()
       })
     },
-    existenceCheck: {
-      query: {
-        id: 'categories'
-      }
-    },
     output: {
-      OK: z.boolean(),
+      NO_CONTENT: true,
       NOT_FOUND: true
     }
   })
-  .callback(async function ({ pb, query: { id }, response }) {
-    const result = await pb.delete.collection('categories').id(id).execute()
+  .callback(async ({ db, query: { id }, response }) => {
+    const [deleted] = await db
+      .delete(achievementsCategories)
+      .where(eq(achievementsCategories.id, id))
+      .returning()
 
-    return response.ok(result)
+    if (!deleted) {
+      return response.notFound()
+    }
+
+    return response.noContent()
   })
