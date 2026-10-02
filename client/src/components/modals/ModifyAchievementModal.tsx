@@ -30,7 +30,7 @@ const schema = z.object({
   title: z.string().min(1, 'Title is required'),
   thoughts: z.string().min(1, 'Thoughts are required'),
   difficulty: z.enum(['easy', 'medium', 'hard', 'impossible']),
-  category: z.string().optional()
+  category: z.string().optional().nullable()
 })
 
 function ModifyAchievementModal({
@@ -75,12 +75,15 @@ function ModifyAchievementModal({
     color: TAILWIND_PALETTE[color as keyof typeof TAILWIND_PALETTE][500]
   }))
 
-  const categoryOptions = (categoriesQuery.data || []).map(category => ({
-    text: category.name,
-    color: category.color,
-    icon: category.icon,
-    value: category.id
-  }))
+  const categoryOptions = [
+    { text: t('none'), icon: 'tabler:ban', value: '' },
+    ...(categoriesQuery.data || []).map(category => ({
+      text: category.name,
+      color: category.color,
+      icon: category.icon,
+      value: category.id
+    }))
+  ]
 
   return (
     <FormModal

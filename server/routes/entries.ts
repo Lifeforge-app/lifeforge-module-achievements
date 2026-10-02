@@ -1,9 +1,12 @@
-import { eq, sql, type TableFilter } from 'drizzle-orm'
+import { count, eq, type TableFilter } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
 import forge from '../forge'
-import { achievementsEntries } from '../schema.drizzle'
+import {
+  achievementsCategories,
+  achievementsEntries
+} from '../schema.drizzle'
 
 const entryDifficultyDto =
   createSelectSchema(achievementsEntries).shape.difficulty
@@ -24,7 +27,10 @@ const entryInputDto = createInsertSchema(achievementsEntries)
     difficulty: true
   })
   .extend({
-    category: z.string().optional().nullable()
+    category: forge.existsIn(
+      z.string().optional().nullable(),
+      achievementsCategories
+    )
   })
 
 export const list = forge
@@ -34,27 +40,19 @@ export const list = forge
     input: {
       query: z.object({
         difficulty: entryDifficultyDto.optional().nullable(),
-        category: z.string().optional(),
+        category: forge.existsIn(
+          z.string().optional(),
+          achievementsCategories
+        ),
         query: z.string().optional()
       })
     },
     output: {
-      OK: z.array(entryDto),
-      NOT_FOUND: true
+      OK: z.array(entryDto)
     }
   })
   .callback(
     async ({ query: { difficulty, category, query }, response, db }) => {
-      if (category) {
-        const exists = await db.query.achievementsCategories.findFirst({
-          where: { id: category }
-        })
-
-        if (!exists) {
-          return response.notFound()
-        }
-      }
-
       const filters: TableFilter<typeof achievementsEntries>[] = [
         ...(difficulty ? [{ difficulty }] : []),
         ...(category ? [{ categoryId: category }] : []),
@@ -100,7 +98,7 @@ export const difficultiesCount = forge
     const listItems = await db
       .select({
         difficulty: achievementsEntries.difficulty,
-        count: sql<number>`CAST(COUNT(*) AS INTEGER)`.mapWith(Number)
+        amount: count()
       })
       .from(achievementsEntries)
       .groupBy(achievementsEntries.difficulty)
@@ -114,7 +112,7 @@ export const difficultiesCount = forge
 
     for (const item of listItems) {
       if (item.difficulty in counts) {
-        counts[item.difficulty] = item.count
+        counts[item.difficulty] = item.amount
       }
     }
 
@@ -128,21 +126,10 @@ export const create = forge
       body: entryInputDto
     },
     output: {
-      NO_CONTENT: true,
-      NOT_FOUND: true
+      NO_CONTENT: true
     }
   })
   .callback(async ({ db, body, response }) => {
-    if (body.category) {
-      const exists = await db.query.achievementsCategories.findFirst({
-        where: { id: body.category }
-      })
-
-      if (!exists) {
-        return response.notFound()
-      }
-    }
-
     await db.insert(achievementsEntries).values({
       title: body.title,
       thoughts: body.thoughts ?? '',
@@ -158,27 +145,16 @@ export const update = forge
     description: 'Update an existing achievements entry',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), achievementsEntries)
       }),
       body: entryInputDto
     },
     output: {
-      NO_CONTENT: true,
-      NOT_FOUND: true
+      NO_CONTENT: true
     }
   })
   .callback(async ({ db, query: { id }, body, response }) => {
-    if (body.category) {
-      const exists = await db.query.achievementsCategories.findFirst({
-        where: { id: body.category }
-      })
-
-      if (!exists) {
-        return response.notFound()
-      }
-    }
-
-    const [updated] = await db
+    await db
       .update(achievementsEntries)
       .set({
         title: body.title,
@@ -188,11 +164,6 @@ export const update = forge
         updated: new Date()
       })
       .where(eq(achievementsEntries.id, id))
-      .returning()
-
-    if (!updated) {
-      return response.notFound()
-    }
 
     return response.noContent()
   })
@@ -202,23 +173,15 @@ export const remove = forge
     description: 'Delete an achievements entry',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), achievementsEntries)
       })
     },
     output: {
-      NO_CONTENT: true,
-      NOT_FOUND: true
+      NO_CONTENT: true
     }
   })
   .callback(async ({ db, query: { id }, response }) => {
-    const [deleted] = await db
-      .delete(achievementsEntries)
-      .where(eq(achievementsEntries.id, id))
-      .returning()
-
-    if (!deleted) {
-      return response.notFound()
-    }
+    await db.delete(achievementsEntries).where(eq(achievementsEntries.id, id))
 
     return response.noContent()
   })

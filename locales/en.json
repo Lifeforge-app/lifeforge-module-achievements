@@ -50,5 +50,6 @@
   "items": {
     "achievement": "Achievement"
   },
-  "accomplishedOn": "Accomplished {{date}}"
+  "accomplishedOn": "Accomplished {{date}}",
+  "none": "None"
 }

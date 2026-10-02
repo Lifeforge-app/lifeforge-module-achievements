@@ -15,7 +15,7 @@ function AchievementMeta({
   category,
   created
 }: {
-  category: string
+  category: string | null | undefined
   title: string
   thoughts: string
   created: string

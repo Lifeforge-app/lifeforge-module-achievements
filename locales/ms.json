@@ -50,5 +50,6 @@
   "items": {
     "achievement": "Pencapaian"
   },
-  "accomplishedOn": "Dicapai {{date}}"
+  "accomplishedOn": "Dicapai {{date}}",
+  "none": "Tiada"
 }

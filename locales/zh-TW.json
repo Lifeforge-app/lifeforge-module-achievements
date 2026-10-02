@@ -50,5 +50,6 @@
   "items": {
     "achievement": "成就"
   },
-  "accomplishedOn": "{{date}}達成"
+  "accomplishedOn": "{{date}}達成",
+  "none": "無"
 }

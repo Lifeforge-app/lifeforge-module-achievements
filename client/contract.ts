@@ -48,8 +48,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     },
     "difficultiesCount": {
@@ -163,8 +162,7 @@ export const contract = {
             ],
             "additionalProperties": false
           }
-        },
-        "NOT_FOUND": true
+        }
       }
     },
     "remove": {
@@ -190,8 +188,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     },
     "update": {
@@ -255,8 +252,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     }
   },
@@ -295,8 +291,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "CONFLICT": true
+        "NO_CONTENT": true
       }
     },
     "list": {
@@ -370,8 +365,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     },
     "update": {
@@ -423,9 +417,7 @@ export const contract = {
         }
       },
       "output": {
-        "NO_CONTENT": true,
-        "CONFLICT": true,
-        "NOT_FOUND": true
+        "NO_CONTENT": true
       }
     }
   }

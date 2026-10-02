@@ -1,4 +1,4 @@
-import { eq, sql } from 'drizzle-orm'
+import { count, eq } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
@@ -29,10 +29,7 @@ export const list = forge
         name: achievementsCategories.name,
         icon: achievementsCategories.icon,
         color: achievementsCategories.color,
-        amount:
-          sql<number>`CAST(COUNT(${achievementsEntries.id}) AS INTEGER)`.mapWith(
-            Number
-          )
+        amount: count(achievementsEntries.id)
       })
       .from(achievementsCategories)
       .leftJoin(
@@ -51,19 +48,10 @@ export const create = forge
       body: categoryInputDto
     },
     output: {
-      NO_CONTENT: true,
-      CONFLICT: true
+      NO_CONTENT: true
     }
   })
   .callback(async ({ db, body, response }) => {
-    const existingCategory = await db.query.achievementsCategories.findFirst({
-      where: { name: body.name }
-    })
-
-    if (existingCategory) {
-      return response.conflict()
-    }
-
     await db.insert(achievementsCategories).values(body)
 
     return response.noContent()
@@ -74,37 +62,19 @@ export const update = forge
     description: 'Update an existing achievement category',
     input: {
       query: z.object({
-        id: z.uuid()
+        id: forge.existsIn(z.uuid(), achievementsCategories)
       }),
       body: categoryInputDto
     },
     output: {
-      NO_CONTENT: true,
-      CONFLICT: true,
-      NOT_FOUND: true
+      NO_CONTENT: true
     }
   })
   .callback(async ({ db, query: { id }, body, response }) => {
-    const existingCategory = await db.query.achievementsCategories.findFirst({
-      where: {
-        name: body.name,
-        id: { ne: id }
-      }
-    })
-
-    if (existingCategory) {
-      return response.conflict()
-    }
-
-    const [category] = await db
+    await db
       .update(achievementsCategories)
       .set(body)
       .where(eq(achievementsCategories.id, id))
-      .returning()
-
-    if (!category) {
-      return response.notFound()
-    }
 
     return response.noContent()
   })
@@ -114,23 +84,17 @@ export const remove = forge
     description: 'Delete an achievement category',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), achievementsCategories)
       })
     },
     output: {
-      NO_CONTENT: true,
-      NOT_FOUND: true
+      NO_CONTENT: true
     }
   })
   .callback(async ({ db, query: { id }, response }) => {
-    const [deleted] = await db
+    await db
       .delete(achievementsCategories)
       .where(eq(achievementsCategories.id, id))
-      .returning()
-
-    if (!deleted) {
-      return response.notFound()
-    }
 
     return response.noContent()
   })
