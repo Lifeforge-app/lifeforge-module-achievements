@@ -136,10 +136,12 @@ export const contract = {
                 ]
               },
               "created": {
-                "type": "string"
+                "type": "string",
+                "format": "date-time"
               },
               "updated": {
-                "type": "string"
+                "type": "string",
+                "format": "date-time"
               },
               "category": {
                 "anyOf": [

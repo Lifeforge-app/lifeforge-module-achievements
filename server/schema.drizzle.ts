@@ -1,12 +1,9 @@
 import { type RelationsBuilder } from 'drizzle-orm'
-import {
-  pgEnum,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-  varchar
-} from 'drizzle-orm/pg-core'
+import { pgEnum, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
+
+import { createModuleTable } from '@lifeforge/drizzle'
+
+const pgTable = createModuleTable()
 
 export const difficultyEnum = pgEnum('difficulty', [
   'easy',
@@ -15,33 +12,36 @@ export const difficultyEnum = pgEnum('difficulty', [
   'impossible'
 ])
 
-export const achievementsCategories = pgTable('achievements__categories', {
+export const achievementsCategories = pgTable('categories', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: varchar('name', { length: 255 }).notNull().unique(),
   color: varchar('color', { length: 255 }).notNull(),
   icon: varchar('icon', { length: 255 }).notNull()
 })
 
-export const achievementsEntries = pgTable('achievements__entries', {
+export const achievementsEntries = pgTable('entries', {
   id: uuid('id').defaultRandom().primaryKey(),
   title: varchar('title', { length: 255 }).notNull(),
   thoughts: text('thoughts').notNull(),
   difficulty: difficultyEnum('difficulty').notNull(),
-  categoryId: uuid('category_id').references(() => achievementsCategories.id),
+  category_id: uuid('category_id').references(() => achievementsCategories.id),
   created: timestamp('created', { mode: 'date' }).defaultNow().notNull(),
   updated: timestamp('updated', { mode: 'date' }).defaultNow().notNull()
 })
 
-export const tables = { achievementsCategories, achievementsEntries }
+export const tables = {
+  categories: achievementsCategories,
+  entries: achievementsEntries
+}
 
 export const relations = (r: RelationsBuilder<typeof tables>) => ({
-  achievementsCategories: {
-    entries: r.many.achievementsEntries()
+  categories: {
+    entries: r.many.entries()
   },
-  achievementsEntries: {
-    category: r.one.achievementsCategories({
-      from: r.achievementsEntries.categoryId,
-      to: r.achievementsCategories.id
+  entries: {
+    category: r.one.categories({
+      from: r.entries.category_id,
+      to: r.categories.id
     })
   }
 })

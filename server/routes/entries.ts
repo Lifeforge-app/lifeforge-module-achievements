@@ -1,23 +1,18 @@
-import { count, eq, type TableFilter } from 'drizzle-orm'
+import { type TableFilter, count, eq } from 'drizzle-orm'
 import { createInsertSchema, createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
 import forge from '../forge'
-import {
-  achievementsCategories,
-  achievementsEntries
-} from '../schema.drizzle'
+import { achievementsCategories, achievementsEntries } from '../schema.drizzle'
 
 const entryDifficultyDto =
   createSelectSchema(achievementsEntries).shape.difficulty
 
 const entryDto = createSelectSchema(achievementsEntries)
-  .omit({ categoryId: true })
+  .omit({ category_id: true })
   .extend({
     difficulty: entryDifficultyDto,
-    category: z.string().optional().nullable(),
-    created: z.string(),
-    updated: z.string()
+    category: z.string().optional().nullable()
   })
 
 const entryInputDto = createInsertSchema(achievementsEntries)
@@ -40,10 +35,7 @@ export const list = forge
     input: {
       query: z.object({
         difficulty: entryDifficultyDto.optional().nullable(),
-        category: forge.existsIn(
-          z.string().optional(),
-          achievementsCategories
-        ),
+        category: forge.existsIn(z.string().optional(), achievementsCategories),
         query: z.string().optional()
       })
     },
@@ -55,7 +47,7 @@ export const list = forge
     async ({ query: { difficulty, category, query }, response, db }) => {
       const filters: TableFilter<typeof achievementsEntries>[] = [
         ...(difficulty ? [{ difficulty }] : []),
-        ...(category ? [{ categoryId: category }] : []),
+        ...(category ? [{ category_id: category }] : []),
         ...(query
           ? [
               {
@@ -68,7 +60,7 @@ export const list = forge
           : [])
       ]
 
-      const result = await db.query.achievementsEntries.findMany({
+      const result = await db.query.entries.findMany({
         where: filters.length > 0 ? { AND: filters } : undefined,
         orderBy: { created: 'desc' }
       })
@@ -79,9 +71,9 @@ export const list = forge
           title: entry.title,
           thoughts: entry.thoughts,
           difficulty: entry.difficulty,
-          category: entry.categoryId ?? null,
-          created: entry.created.toISOString(),
-          updated: entry.updated.toISOString()
+          category: entry.category_id,
+          created: entry.created,
+          updated: entry.updated
         }))
       )
     }
@@ -134,7 +126,7 @@ export const create = forge
       title: body.title,
       thoughts: body.thoughts ?? '',
       difficulty: body.difficulty,
-      categoryId: body.category || null
+      category_id: body.category || null
     })
 
     return response.noContent()
@@ -160,7 +152,7 @@ export const update = forge
         title: body.title,
         thoughts: body.thoughts ?? '',
         difficulty: body.difficulty,
-        categoryId: body.category || null,
+        category_id: body.category || null,
         updated: new Date()
       })
       .where(eq(achievementsEntries.id, id))

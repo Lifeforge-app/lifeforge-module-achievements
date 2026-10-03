@@ -34,7 +34,7 @@ export const list = forge
       .from(achievementsCategories)
       .leftJoin(
         achievementsEntries,
-        eq(achievementsCategories.id, achievementsEntries.categoryId)
+        eq(achievementsCategories.id, achievementsEntries.category_id)
       )
       .groupBy(achievementsCategories.id)
 
