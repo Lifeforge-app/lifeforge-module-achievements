@@ -124,7 +124,7 @@ export const create = forge
   .callback(async ({ db, body, response }) => {
     await db.insert(achievementsEntries).values({
       title: body.title,
-      thoughts: body.thoughts ?? '',
+      thoughts: body.thoughts,
       difficulty: body.difficulty,
       category_id: body.category || null
     })
@@ -150,7 +150,7 @@ export const update = forge
       .update(achievementsEntries)
       .set({
         title: body.title,
-        thoughts: body.thoughts ?? '',
+        thoughts: body.thoughts,
         difficulty: body.difficulty,
         category_id: body.category || null,
         updated: new Date()
