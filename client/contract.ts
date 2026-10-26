@@ -1,51 +1,5 @@
-export interface EntriesCreateInputBody {
-  title: string;
-  thoughts: string;
-  difficulty: "easy" | "medium" | "hard" | "impossible";
-  category?: string | null;
-}
-
-export interface EntriesDifficultiesCountOutputOK {
-  [k: string]: number;
-}
-
-export interface EntriesListInputQuery {
-  difficulty?: ("easy" | "medium" | "hard" | "impossible") | null;
-  category?: string;
-  query?: string;
-}
-
-export interface EntriesRemoveInputQuery {
-  id: string;
-}
-
-export interface EntriesUpdateInputQuery {
-  id: string;
-}
-
-export interface CategoriesCreateInputBody {
-  name: string;
-  icon: string;
-  color: string;
-}
-
-export type CategoriesListOutputOK = {
-  id: string;
-  name: string;
-  color: string;
-  icon: string;
-  amount: number;
-}[];
-
-export interface CategoriesRemoveInputQuery {
-  id: string;
-}
-
-export interface CategoriesUpdateInputQuery {
-  id: string;
-}
-
-export type EntriesListOutputOK = {
+export type EndpointEntriesCreate_OutputNO_CONTENT = void;
+export type EndpointEntriesList_OutputOK = {
   id: string;
   title: string;
   thoughts: string;
@@ -54,77 +8,161 @@ export type EntriesListOutputOK = {
   updated: string;
   category?: string | null;
 }[];
+export type EndpointEntriesRemove_OutputNO_CONTENT = void;
+export type EndpointEntriesUpdate_OutputNO_CONTENT = void;
+export type EndpointCategoriesCreate_OutputNO_CONTENT = void;
+export type EndpointCategoriesList_OutputOK = {
+  id: string;
+  name: string;
+  color: string;
+  icon: string;
+  amount: number;
+}[];
+export type EndpointCategoriesRemove_OutputNO_CONTENT = void;
+export type EndpointCategoriesUpdate_OutputNO_CONTENT = void;
 
-export interface EntriesUpdateInputBody {
+export interface Contract {
+  entries: {
+    create: EndpointEntriesCreate;
+    difficultiesCount: EndpointEntriesDifficultiesCount;
+    list: EndpointEntriesList;
+    remove: EndpointEntriesRemove;
+    update: EndpointEntriesUpdate;
+  };
+  categories: {
+    create: EndpointCategoriesCreate;
+    list: EndpointCategoriesList;
+    remove: EndpointCategoriesRemove;
+    update: EndpointCategoriesUpdate;
+  };
+}
+export interface EndpointEntriesCreate {
+  method: "post";
+  input: {
+    body?: EndpointEntriesCreate_InputBody;
+  };
+  output: {
+    NO_CONTENT: EndpointEntriesCreate_OutputNO_CONTENT;
+  };
+  media: null;
+}
+export interface EndpointEntriesCreate_InputBody {
   title: string;
   thoughts: string;
   difficulty: "easy" | "medium" | "hard" | "impossible";
   category?: string | null;
 }
-
-export interface CategoriesUpdateInputBody {
+export interface EndpointEntriesDifficultiesCount {
+  method: "get";
+  input: {};
+  output: {
+    OK: EndpointEntriesDifficultiesCount_OutputOK;
+  };
+  media: null;
+}
+export interface EndpointEntriesDifficultiesCount_OutputOK {
+  [k: string]: number;
+}
+export interface EndpointEntriesList {
+  method: "get";
+  input: {
+    query?: EndpointEntriesList_InputQuery;
+  };
+  output: {
+    OK: EndpointEntriesList_OutputOK;
+  };
+  media: null;
+}
+export interface EndpointEntriesList_InputQuery {
+  difficulty?: ("easy" | "medium" | "hard" | "impossible") | null;
+  category?: string;
+  query?: string;
+}
+export interface EndpointEntriesRemove {
+  method: "post";
+  input: {
+    query?: EndpointEntriesRemove_InputQuery;
+  };
+  output: {
+    NO_CONTENT: EndpointEntriesRemove_OutputNO_CONTENT;
+  };
+  media: null;
+}
+export interface EndpointEntriesRemove_InputQuery {
+  id: string;
+}
+export interface EndpointEntriesUpdate {
+  method: "post";
+  input: {
+    query?: EndpointEntriesUpdate_InputQuery;
+    body?: EndpointEntriesUpdate_InputBody;
+  };
+  output: {
+    NO_CONTENT: EndpointEntriesUpdate_OutputNO_CONTENT;
+  };
+  media: null;
+}
+export interface EndpointEntriesUpdate_InputQuery {
+  id: string;
+}
+export interface EndpointEntriesUpdate_InputBody {
+  title: string;
+  thoughts: string;
+  difficulty: "easy" | "medium" | "hard" | "impossible";
+  category?: string | null;
+}
+export interface EndpointCategoriesCreate {
+  method: "post";
+  input: {
+    body?: EndpointCategoriesCreate_InputBody;
+  };
+  output: {
+    NO_CONTENT: EndpointCategoriesCreate_OutputNO_CONTENT;
+  };
+  media: null;
+}
+export interface EndpointCategoriesCreate_InputBody {
   name: string;
   icon: string;
   color: string;
 }
-
-export type Contract = {
-  readonly "entries": {
-  readonly "create": {
-  readonly method: "post"
-  readonly input: { readonly body?: EntriesCreateInputBody }
-  readonly output: { readonly NO_CONTENT: void }
-  readonly media: null
+export interface EndpointCategoriesList {
+  method: "get";
+  input: {};
+  output: {
+    OK: EndpointCategoriesList_OutputOK;
+  };
+  media: null;
 }
-  readonly "difficultiesCount": {
-  readonly method: "get"
-  readonly input: {  }
-  readonly output: { readonly OK: EntriesDifficultiesCountOutputOK }
-  readonly media: null
+export interface EndpointCategoriesRemove {
+  method: "post";
+  input: {
+    query?: EndpointCategoriesRemove_InputQuery;
+  };
+  output: {
+    NO_CONTENT: EndpointCategoriesRemove_OutputNO_CONTENT;
+  };
+  media: null;
 }
-  readonly "list": {
-  readonly method: "get"
-  readonly input: { readonly query?: EntriesListInputQuery }
-  readonly output: { readonly OK: EntriesListOutputOK }
-  readonly media: null
+export interface EndpointCategoriesRemove_InputQuery {
+  id: string;
 }
-  readonly "remove": {
-  readonly method: "post"
-  readonly input: { readonly query?: EntriesRemoveInputQuery }
-  readonly output: { readonly NO_CONTENT: void }
-  readonly media: null
+export interface EndpointCategoriesUpdate {
+  method: "post";
+  input: {
+    query?: EndpointCategoriesUpdate_InputQuery;
+    body?: EndpointCategoriesUpdate_InputBody;
+  };
+  output: {
+    NO_CONTENT: EndpointCategoriesUpdate_OutputNO_CONTENT;
+  };
+  media: null;
 }
-  readonly "update": {
-  readonly method: "post"
-  readonly input: { readonly query?: EntriesUpdateInputQuery; readonly body?: EntriesUpdateInputBody }
-  readonly output: { readonly NO_CONTENT: void }
-  readonly media: null
+export interface EndpointCategoriesUpdate_InputQuery {
+  id: string;
 }
-}
-  readonly "categories": {
-  readonly "create": {
-  readonly method: "post"
-  readonly input: { readonly body?: CategoriesCreateInputBody }
-  readonly output: { readonly NO_CONTENT: void }
-  readonly media: null
-}
-  readonly "list": {
-  readonly method: "get"
-  readonly input: {  }
-  readonly output: { readonly OK: CategoriesListOutputOK }
-  readonly media: null
-}
-  readonly "remove": {
-  readonly method: "post"
-  readonly input: { readonly query?: CategoriesRemoveInputQuery }
-  readonly output: { readonly NO_CONTENT: void }
-  readonly media: null
-}
-  readonly "update": {
-  readonly method: "post"
-  readonly input: { readonly query?: CategoriesUpdateInputQuery; readonly body?: CategoriesUpdateInputBody }
-  readonly output: { readonly NO_CONTENT: void }
-  readonly media: null
-}
-}
+export interface EndpointCategoriesUpdate_InputBody {
+  name: string;
+  icon: string;
+  color: string;
 }
