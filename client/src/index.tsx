@@ -46,8 +46,7 @@ function Achievements() {
   const entriesQuery = useQuery(
     forgeAPI.entries.list
       .input({
-        difficulty:
-          (filter.difficulty as Achievement['difficulty']) || undefined,
+        difficulty: filter.difficulty || undefined,
         category: filter.category || undefined,
         query: searchQuery || undefined
       })

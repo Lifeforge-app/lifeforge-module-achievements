@@ -13,12 +13,17 @@ export default function useFilter() {
     parseAsString.withDefault('')
   )
   const [filter, setFilter] = useQueryStates({
-    difficulty: parseAsStringEnum(Object.keys(DIFFICULTIES)).withDefault(''),
+    difficulty: parseAsStringEnum(
+      Object.keys(DIFFICULTIES) as (keyof typeof DIFFICULTIES)[]
+    ),
     favourite: parseAsBoolean.withDefault(false),
     category: parseAsString.withDefault('')
   })
 
-  const updateFilter = (key: keyof typeof filter, value: any) => {
+  const updateFilter = (
+    key: keyof typeof filter,
+    value: string | boolean | null
+  ) => {
     setFilter(prev => ({
       ...prev,
       [key]: value

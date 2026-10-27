@@ -61,9 +61,7 @@ function ModifyAchievementModal({
     defaultValues: {
       ...createDefaultValues(schema),
       ...initialData,
-      difficulty:
-        initialData?.difficulty ||
-        (filter.difficulty as Achievement['difficulty'])
+      difficulty: initialData?.difficulty || filter.difficulty || undefined
     },
     mode: 'all',
     resolver: zodResolver(schema)
